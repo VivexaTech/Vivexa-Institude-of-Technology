@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
+/* 1. Define Tailwind Theme Extensions */
+@theme {
+  --color-cyan: #00e6f7;
+  --color-blue: #3672f8;
+  --font-sans: "Poppins", sans-serif;
+  --font-display: "Orbitron", sans-serif;
+}
+
+/* 2. Unified Light/Dark Theme Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Mode Defaults */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --nav-bg: rgba(248, 250, 252, 0.7);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* 
+  Use standard .dark class for Next.js/Tailwind dark mode.
+  This allows a toggle button to actually change the site colors.
+*/
+.dark, [data-theme="dark"] {
+  --background: #0a101e;
+  --foreground: #e2e8f0;
+  --card-bg: #10182c;
+  --border-color: #1e293b;
+  --nav-bg: rgba(10, 16, 30, 0.7);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 3. Base HTML Elements */
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Cross-browser hidden scrollbar */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  ::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Webkit */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 4. Custom Components (Using Tailwind @apply) */
+@layer components {
+  /* 
+    Best Practice: If you are using React/Next.js, put these classes 
+    directly on the <header> tag instead of keeping them here. 
+    But if you must keep them in CSS, use @apply like this:
+  */
+  
+  .header {
+    @apply fixed top-0 left-0 w-full z-[1000] py-[15px] bg-transparent backdrop-blur-[10px] transition-all duration-300 ease-in-out;
+  }
+
+  .header.scrolled {
+    background-color: var(--nav-bg);
+    @apply py-[10px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.2)];
+  }
+
+  .nav-container {
+    @apply flex justify-between items-center;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    @apply text-[1.8rem] font-black tracking-wide text-inherit;
+  }
+
+  .nav-links {
+    @apply flex items-center list-none gap-6;
+  }
+
+  .nav-links a {
+    @apply text-[0.9rem] font-medium transition-colors hover:text-[var(--color-cyan)];
+  }
 }
