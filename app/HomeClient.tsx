@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { 
   MonitorPlay, Code, PenTool, Database, Award, Users, 
   BookOpen, Briefcase, ArrowRight, ChevronRight, Star
@@ -38,7 +38,8 @@ const TESTIMONIALS = [
 ];
 
 // --- Animation Variants ---
-const staggerContainer = {
+// ADDED: Explicit 'Variants' typing to satisfy TypeScript build checks
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -46,7 +47,7 @@ const staggerContainer = {
   }
 };
 
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
@@ -56,7 +57,7 @@ export default function HomeClient() {
     <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden">
       
       {/* 1. Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-18 lg:pb-32 px-6">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
         {/* Background Glow Elements */}
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[120px] -z-10 animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] -z-10" />
