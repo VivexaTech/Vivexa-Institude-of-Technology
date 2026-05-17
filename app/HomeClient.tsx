@@ -18,7 +18,7 @@ const COURSES = [
 ];
 
 const STATS = [
-  { value: "500+", label: "Students Trained" },
+  { value: "50+", label: "Students Trained" },
   { value: "20+", label: "Premium Courses" },
   { value: "95%", label: "Satisfaction Rate" },
   { value: "100%", label: "Career Support" },
@@ -224,7 +224,7 @@ export default function HomeClient() {
             <div className="relative z-10">
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">Admissions Open for 2026</h2>
               <p className="text-blue-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium">Take the first step towards a lucrative career in tech. Limited seats available for our upcoming premium batches.</p>
-              <Link href="/admission" className="inline-block px-10 py-4 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300">
+              <Link href="/admissions" className="inline-block px-10 py-4 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300">
                 Enroll Today
               </Link>
             </div>

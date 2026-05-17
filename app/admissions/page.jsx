@@ -5,7 +5,7 @@ export const metadata = {
   description: "Apply for admission at Vivexa Institute of Technology. Start your journey toward future-ready digital skills with our premium computer courses.",
   keywords: [
     "Computer Institute Admission", 
-    "Vivexa Tech Admission Form", 
+    "Vivexa Institute Of Technology Admission Form", 
     "Apply for Computer Courses", 
     "IT Training Admissions Gurugram", 
     "DCA ADCA Admission 2026"
