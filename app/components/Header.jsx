@@ -47,10 +47,10 @@ export default function Header() {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         
-        {/* Brand / Logo */}
+        {/* Branding */}
         <Link href="/" className="flex items-center gap-3 group z-50">
           
-          <div className="text-xl font-black tracking-tight text-slate-900 dark:text-white hidden sm:block">
+          <div className="text-xl font-black tracking-tight text-slate-900 dark:text-white ">
             Vivexa<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500"> Institute of Technology</span>
           </div>
         </Link>
@@ -111,18 +111,6 @@ export default function Header() {
           
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
             {/* Mobile Theme Toggle */}
-            {mounted && (
-              <button 
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")} 
-                className="flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-400"
-              >
-                {theme === "dark" ? (
-                  <><Sun size={18} /> Light Mode</>
-                ) : (
-                  <><Moon size={18} /> Dark Mode</>
-                )}
-              </button>
-            )}
 
             <Link 
               href="/admissions"
