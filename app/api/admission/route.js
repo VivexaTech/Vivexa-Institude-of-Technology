@@ -45,7 +45,7 @@ export async function POST(request) {
     // 3. Dispatch Email via Resend
     await resend.emails.send({
       from: 'noreply@vivexatech.in',
-      to: 'admission@vivexatech.in', // Adjust this destination email as necessary
+      to: 'contact@vivexatech.in', // Adjust this destination email as necessary
       subject: `New Admission Form: ${fullName} - ${course}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 650px; margin: 0 auto; color: #1e293b;">
