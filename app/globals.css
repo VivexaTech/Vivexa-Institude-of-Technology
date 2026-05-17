@@ -83,3 +83,7 @@
     @apply text-[0.9rem] font-medium transition-colors hover:text-[var(--color-cyan)];
   }
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
