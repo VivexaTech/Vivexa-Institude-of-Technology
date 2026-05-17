@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
   MonitorPlay, Code, PenTool, Database, Award, Users, 
-  BookOpen, Briefcase, ArrowRight, ChevronRight, Star
+  BookOpen, Briefcase, ArrowRight, ChevronRight, Star,
+  CheckCircle2, ShieldCheck, Building2, Rocket, FileCheck, Search
 } from "lucide-react";
 
 // --- Data Arrays ---
@@ -37,9 +38,25 @@ const TESTIMONIALS = [
   { name: "Amit Kumar", role: "Accountant", text: "Tally+GST course helped me secure a job within weeks of completion. Great faculty!" },
 ];
 
+const INTERNSHIP_BENEFITS = [
+  "Real Project Experience",
+  "Industry Exposure",
+  "Practical Skill Development",
+  "Portfolio Building",
+  "Work Experience Certificate",
+  "Career Growth Opportunities"
+];
+
+const VERIFY_FEATURES = [
+  "Instant Certificate Verification",
+  "Secure Verification System",
+  "Unique Certificate ID",
+  "Verified Student Information",
+  "Authenticity Check"
+];
+
 // --- Animation Variants ---
-// ADDED: Explicit 'Variants' typing to satisfy TypeScript build checks
-const staggerContainer: Variants = {
+const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -47,7 +64,7 @@ const staggerContainer: Variants = {
   }
 };
 
-const fadeInUp: Variants = {
+const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
@@ -157,6 +174,68 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* NEW SECTION 1: Internship Program */}
+      <section className="py-24 px-6 relative border-t border-slate-200 dark:border-white/5 overflow-hidden">
+        {/* Glow Effects */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] -z-10" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-10" />
+
+        <div className="container mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Content Left */}
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-cyan-400 text-xs font-bold mb-6 tracking-wide uppercase">
+              <Rocket size={16} /> Exclusive For Students
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-black leading-tight mb-6 text-slate-900 dark:text-white">
+              Internship Opportunities <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">Also Available</span>
+            </h2>
+            
+            <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+              Gain real-world experience through exclusive internship programs. Selected students may get opportunities to work on live projects after course completion through our parent company, Vivexa Tech.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-10">
+              {INTERNSHIP_BENEFITS.map((benefit, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-cyan-400 shrink-0">
+                    <CheckCircle2 size={14} strokeWidth={3} />
+                  </div>
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">{benefit}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Premium Card Right */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            <div className="p-10 rounded-[2.5rem] bg-white/60 dark:bg-[#111827]/80 border border-slate-200 dark:border-white/10 backdrop-blur-2xl shadow-2xl hover:shadow-blue-500/10 transition-shadow group relative overflow-hidden">
+              
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-500/20 to-cyan-400/0 rounded-full blur-2xl pointer-events-none transition-opacity group-hover:opacity-100 opacity-50" />
+              
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 mb-8">
+                <Building2 size={32} />
+              </div>
+              
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-4">Powered By Vivexa Tech</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
+                Selected students may get internship opportunities through Vivexa Tech based on overall performance, project execution, and skill level during the training program.
+              </p>
+              
+              <Link href="/contact" className="inline-flex items-center justify-center w-full py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:shadow-lg transition-all active:scale-95 group/btn">
+                Explore Opportunities <ArrowRight size={18} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* 4. Popular Courses */}
       <section className="py-24 px-6 bg-slate-100 dark:bg-[#0d1425] relative border-y border-slate-200 dark:border-white/5">
         <div className="container mx-auto max-w-7xl">
@@ -210,6 +289,100 @@ export default function HomeClient() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* NEW SECTION 2: Certificate Verification */}
+      <section className="py-24 px-6 bg-slate-100 dark:bg-[#0d1425] border-y border-slate-200 dark:border-white/5 relative overflow-hidden">
+        {/* Glow Background */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
+        
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Content */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="lg:col-span-5 text-center lg:text-left"
+            >
+              <h2 className="text-3xl md:text-5xl font-black mb-6 text-slate-900 dark:text-white">
+                Verify Certificates <span className="text-blue-600 dark:text-cyan-400">Online</span>
+              </h2>
+              <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+                Vivexa Institute of Technology provides secure, online certificate verification for authenticity and trust. Students and organizations can verify credentials instantly.
+              </p>
+
+              <div className="space-y-5 mb-10 inline-block text-left">
+                {VERIFY_FEATURES.map((feature, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center text-green-600 dark:text-green-400 shrink-0">
+                      <CheckCircle2 size={12} strokeWidth={4} />
+                    </div>
+                    <span className="font-semibold text-slate-700 dark:text-slate-300">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="text-center lg:text-left">
+                <Link href="/verify" className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all active:scale-95 gap-2 group">
+                  <ShieldCheck size={20} /> Verify Certificate
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Right UI Example Card */}
+            <motion.div 
+              initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="lg:col-span-7"
+            >
+              <div className="p-8 md:p-10 rounded-[2.5rem] bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 shadow-2xl relative">
+                
+                {/* Decorative Elements */}
+                <div className="absolute top-10 right-10 w-20 h-20 bg-green-500/10 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate-100 dark:border-white/5">
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-white/5 flex items-center justify-center text-blue-600 dark:text-cyan-400">
+                    <FileCheck size={28} />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white">Certificate Search</h4>
+                    <p className="text-sm text-slate-500">Enter unique ID to verify</p>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Certificate ID</label>
+                    <div className="flex items-center w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 cursor-not-allowed text-slate-400">
+                      <Search size={18} className="mr-3 text-slate-400" />
+                      <span className="font-mono tracking-wider">VIT-2026-001</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Direct Verification URL</label>
+                    <div className="flex items-center w-full px-5 py-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-cyan-400 break-all cursor-not-allowed">
+                      <span className="font-mono text-sm">vit.vivexatech.in/verify?id=VIT-2026-001</span>
+                    </div>
+                  </div>
+
+                  {/* Mock Verified Status */}
+                  <div className="mt-8 p-4 rounded-xl bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 flex items-center gap-4">
+                    <div className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </div>
+                    <div>
+                      <p className="font-bold text-green-700 dark:text-green-400">Status: Verified Authentic</p>
+                      <p className="text-xs text-green-600/80 dark:text-green-400/80 mt-0.5">Institute digitally signed</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </section>
