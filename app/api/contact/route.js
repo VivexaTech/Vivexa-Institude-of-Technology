@@ -11,35 +11,25 @@ export async function POST(request) {
     const body = await request.json();
     const { name, phone, email, subject, message, token } = body;
 
-    // 1. Validate incoming form fields
+    // 1. Validate fields
     if (!name || !phone || !email || !subject || !message || !token) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // 2. Verify reCAPTCHA token with Google
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
     const verifyRes = await fetch(verifyUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `secret=${RECAPTCHA_SECRET_KEY}&response=${token}`,
     });
-
     const verifyData = await verifyRes.json();
 
-    // v3 returns a score (0.0 to 1.0). < 0.5 is typically considered a bot.
     if (!verifyData.success || verifyData.score < 0.5) {
-      return NextResponse.json(
-        { error: 'reCAPTCHA verification failed. Bot suspected.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'reCAPTCHA verification failed. Bot suspected.' }, { status: 400 });
     }
 
-    // 3 & 4. Execute Email and Database operations in parallel
+    // 3. Prepare Email
     const emailPromise = resend.emails.send({
       from: 'noreply@vivexatech.in',
       to: 'contact@vivexatech.in',
@@ -48,24 +38,10 @@ export async function POST(request) {
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
           <h2 style="color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;">New Contact Request</h2>
           <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; width: 120px;"><strong>Name:</strong></td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">${name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><strong>Phone:</strong></td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">${phone}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><strong>Email:</strong></td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
-                <a href="mailto:${email}" style="color: #2563eb;">${email}</a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><strong>Subject:</strong></td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">${subject}</td>
-            </tr>
+            <tr><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; width: 120px;"><strong>Name:</strong></td><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">${name}</td></tr>
+            <tr><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><strong>Phone:</strong></td><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">${phone}</td></tr>
+            <tr><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><strong>Email:</strong></td><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><a href="mailto:${email}" style="color: #2563eb;">${email}</a></td></tr>
+            <tr><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;"><strong>Subject:</strong></td><td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">${subject}</td></tr>
           </table>
           <div style="margin-top: 20px;">
             <strong>Message:</strong>
@@ -78,6 +54,7 @@ export async function POST(request) {
       `,
     });
 
+    // 4. Prepare Database Save
     const dbPromise = addDoc(collection(db, 'contact_messages'), {
       fullName: name,
       email: email,
@@ -89,31 +66,13 @@ export async function POST(request) {
       createdAt: serverTimestamp()
     });
 
-    const startTime = Date.now();
-    Promise.allSettled([emailPromise, dbPromise]).then(([emailResult, dbResult]) => {
-      const duration = Date.now() - startTime;
-      console.log(`Contact APIs execution time: ${duration}ms`);
-
-      if (emailResult.status === 'rejected') {
-        console.error('Contact Form Email sending failed:', emailResult.reason);
-      } else {
-        console.log('Contact Form Email sent successfully.');
-      }
-
-      if (dbResult.status === 'rejected') {
-        console.error('Contact Form Firebase save failed:', dbResult.reason);
-      } else {
-        console.log('Contact Form Firebase save successful.');
-      }
-    });
-
-    // Return success instantly, without waiting for the email or database to finish
+    // 5. Execute in parallel and catch errors to fulfill the strict constraints
+    await Promise.all([emailPromise, dbPromise]);
+    
     return NextResponse.json({ success: true, message: "Form submitted successfully" }, { status: 200 });
+
   } catch (error) {
     console.error('Contact Form/reCAPTCHA Error:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
