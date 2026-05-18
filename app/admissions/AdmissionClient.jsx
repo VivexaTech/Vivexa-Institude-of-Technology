@@ -401,11 +401,12 @@ export default function AdmissionClient() {
                   <div className="pt-6 grid md:grid-cols-2 gap-4">
                     <button 
                       type="submit" 
-                      disabled={isSubmitting}
-                      className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 group"
+                      disabled={isSubmitting || submitStatus === 'success'}
+                      className={`w-full py-4 rounded-xl ${submitStatus === 'success' ? 'bg-green-500' : 'bg-gradient-to-r from-blue-600 to-cyan-500'} text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 group`}
                     >
-                      {isSubmitting ? "Submitting..." : "Submit Application"} 
-                      {!isSubmitting && <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                      {isSubmitting ? "Submitting..." : (submitStatus === 'success' ? "Submitted Successfully" : "Submit Application")} 
+                      {!isSubmitting && submitStatus !== 'success' && <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                      {submitStatus === 'success' && <CheckCircle2 size={20} />}
                     </button>
                     <button 
                       type="button" 

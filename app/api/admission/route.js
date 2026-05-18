@@ -44,8 +44,8 @@ export async function POST(request) {
       );
     }
 
-    // 3. Dispatch Email via Resend
-    await resend.emails.send({
+    // 3 & 4. Execute Email and Database operations in parallel
+    const emailPromise = resend.emails.send({
       from: 'noreply@vivexatech.in',
       to: 'contact@vivexatech.in', // Adjust this destination email as necessary
       subject: `New Admission Form: ${fullName} - ${course}`,
@@ -124,8 +124,7 @@ export async function POST(request) {
       `,
     });
 
-    // 4. Save to Firebase Firestore with Auto-Incrementing ID
-    try {
+    const dbPromise = (async () => {
       const currentYear = new Date().getFullYear();
       const counterRef = doc(db, 'counters', 'admissions');
 
@@ -166,11 +165,34 @@ export async function POST(request) {
         source: "Website Admission Form",
         createdAt: serverTimestamp()
       });
-    } catch (dbError) {
-      console.error('Failed to save admission to Firestore:', dbError);
+    })();
+
+    const startTime = Date.now();
+    const [emailResult, dbResult] = await Promise.allSettled([emailPromise, dbPromise]);
+    const duration = Date.now() - startTime;
+    console.log(`Admission APIs execution time: ${duration}ms`);
+
+    if (emailResult.status === 'rejected') {
+      console.error('Admission Form Email sending failed:', emailResult.reason);
+    } else {
+      console.log('Admission Form Email sent successfully.');
     }
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    if (dbResult.status === 'rejected') {
+      console.error('Admission Form Firebase save failed:', dbResult.reason);
+    } else {
+      console.log('Admission Form Firebase save successful.');
+    }
+
+    if (emailResult.status === 'rejected' && dbResult.status === 'rejected') {
+      throw new Error('Both email and database operations failed.');
+    }
+
+    const messageResponse = (emailResult.status === 'rejected' || dbResult.status === 'rejected') 
+      ? "Submission partially completed" 
+      : "Form submitted successfully";
+
+    return NextResponse.json({ success: true, message: messageResponse }, { status: 200 });
   } catch (error) {
     console.error('Admission Form Error:', error);
     return NextResponse.json(
