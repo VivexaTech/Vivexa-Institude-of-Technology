@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
@@ -75,6 +77,23 @@ export async function POST(request) {
         </div>
       `,
     });
+
+    // 4. Save to Firebase Firestore
+    try {
+      await addDoc(collection(db, 'contact_messages'), {
+        fullName: name, // Using 'name' from the form
+        email: email,
+        phone: phone,
+        subject: subject,
+        message: message,
+        source: "Website Contact Form",
+        status: "Unread",
+        createdAt: serverTimestamp()
+      });
+    } catch (dbError) {
+      console.error('Failed to save contact to Firestore:', dbError);
+      // We don't fail the request here since the email was sent successfully
+    }
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { db } from '@/lib/firebase';
+import { collection, doc, runTransaction, serverTimestamp, addDoc } from 'firebase/firestore';
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -121,6 +123,52 @@ export async function POST(request) {
         </div>
       `,
     });
+
+    // 4. Save to Firebase Firestore with Auto-Incrementing ID
+    try {
+      const currentYear = new Date().getFullYear();
+      const counterRef = doc(db, 'counters', 'admissions');
+
+      const admissionId = await runTransaction(db, async (transaction) => {
+        const counterDoc = await transaction.get(counterRef);
+
+        let newCount = 1;
+        if (counterDoc.exists()) {
+          const data = counterDoc.data();
+          if (data.year === currentYear) {
+            newCount = data.count + 1;
+          }
+        }
+
+        const formattedId = `VIT-ADM-${currentYear}-${String(newCount).padStart(3, '0')}`;
+
+        transaction.set(counterRef, {
+          year: currentYear,
+          count: newCount
+        });
+
+        return formattedId;
+      });
+
+      await addDoc(collection(db, 'admissions'), {
+        admissionId: admissionId,
+        fullName,
+        fatherName,
+        email: email || '', // Might not be provided based on previous code
+        phone,
+        dob,
+        gender,
+        course,
+        qualification,
+        address,
+        message: message || '',
+        status: "Pending",
+        source: "Website Admission Form",
+        createdAt: serverTimestamp()
+      });
+    } catch (dbError) {
+      console.error('Failed to save admission to Firestore:', dbError);
+    }
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
