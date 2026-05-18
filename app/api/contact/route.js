@@ -90,31 +90,25 @@ export async function POST(request) {
     });
 
     const startTime = Date.now();
-    const [emailResult, dbResult] = await Promise.allSettled([emailPromise, dbPromise]);
-    const duration = Date.now() - startTime;
-    console.log(`Contact APIs execution time: ${duration}ms`);
+    Promise.allSettled([emailPromise, dbPromise]).then(([emailResult, dbResult]) => {
+      const duration = Date.now() - startTime;
+      console.log(`Contact APIs execution time: ${duration}ms`);
 
-    if (emailResult.status === 'rejected') {
-      console.error('Contact Form Email sending failed:', emailResult.reason);
-    } else {
-      console.log('Contact Form Email sent successfully.');
-    }
+      if (emailResult.status === 'rejected') {
+        console.error('Contact Form Email sending failed:', emailResult.reason);
+      } else {
+        console.log('Contact Form Email sent successfully.');
+      }
 
-    if (dbResult.status === 'rejected') {
-      console.error('Contact Form Firebase save failed:', dbResult.reason);
-    } else {
-      console.log('Contact Form Firebase save successful.');
-    }
+      if (dbResult.status === 'rejected') {
+        console.error('Contact Form Firebase save failed:', dbResult.reason);
+      } else {
+        console.log('Contact Form Firebase save successful.');
+      }
+    });
 
-    if (emailResult.status === 'rejected' && dbResult.status === 'rejected') {
-      throw new Error('Both email and database operations failed.');
-    }
-
-    const messageResponse = (emailResult.status === 'rejected' || dbResult.status === 'rejected') 
-      ? "Submission partially completed" 
-      : "Form submitted successfully";
-
-    return NextResponse.json({ success: true, message: messageResponse }, { status: 200 });
+    // Return success instantly, without waiting for the email or database to finish
+    return NextResponse.json({ success: true, message: "Form submitted successfully" }, { status: 200 });
   } catch (error) {
     console.error('Contact Form/reCAPTCHA Error:', error);
     return NextResponse.json(
