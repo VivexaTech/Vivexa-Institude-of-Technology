@@ -101,8 +101,29 @@ export default function RootLayout({
       "https://www.linkedin.com/company/vivexa-tech",
       "https://www.instagram.com/vivexainstituteoftechnology",
     ],
+
+    other:{
+      "application-name": "Vivexa Institute of Technology",
+    }
   };
 
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Vivexa Institute of Technology",
+    url: "https://vit.vivexatech.in",
+    description:
+      "Premium computer education institute offering practical IT training and future-ready digital skills.",
+    publisher: {
+      "@type": "Organization",
+      name: "Vivexa Institute of Technology",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://vit.vivexatech.in/icon1.png",
+      },
+    },
+  }
   return (
     <html
       lang="en"
@@ -118,6 +139,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
           }}
         />
       </head>

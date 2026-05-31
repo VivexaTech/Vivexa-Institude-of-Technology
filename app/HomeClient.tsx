@@ -154,6 +154,41 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* 4. Popular Courses */}
+      <section className="py-24 px-6 bg-slate-100 dark:bg-[#0d1425] relative border-y border-slate-200 dark:border-white/5">
+        <div className="container mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Popular <span className="text-blue-600 dark:text-cyan-400">Courses</span></h2>
+              <p className="text-slate-600 dark:text-slate-400 max-w-xl text-lg">Master the most in-demand skills of 2026. From basic computing to advanced AI tools.</p>
+            </div>
+            <Link href="/courses" className="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-semibold hover:gap-3 transition-all">
+              View All Courses <ChevronRight size={18} />
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {COURSES.map((course, i) => {
+              const Icon = course.icon;
+              return (
+                <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: i * 0.1 }} className="group rounded-3xl p-[1px] bg-gradient-to-b from-slate-200 to-slate-100 dark:from-white/10 dark:to-transparent hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 overflow-hidden">
+                  <div className="h-full bg-white dark:bg-[#111827] rounded-[23px] p-8 flex flex-col">
+                    <div className="w-14 h-14 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center mb-6 text-slate-600 dark:text-slate-300 group-hover:text-white group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-cyan-500 transition-all duration-300 shadow-sm">
+                      <Icon size={28} />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{course.title}</h3>
+                    <p className="text-slate-600 dark:text-slate-400 mb-8 flex-grow">{course.desc}</p>
+                    <Link href="/courses" className="w-full py-3 rounded-xl border border-slate-200 dark:border-white/10 font-semibold text-slate-700 dark:text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center">
+                      Learn More
+                    </Link>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* 3. Why Choose Us */}
       <section className="py-24 px-6 relative">
         <div className="container mx-auto max-w-6xl">
@@ -241,40 +276,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* 4. Popular Courses */}
-      <section className="py-24 px-6 bg-slate-100 dark:bg-[#0d1425] relative border-y border-slate-200 dark:border-white/5">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">Popular <span className="text-blue-600 dark:text-cyan-400">Courses</span></h2>
-              <p className="text-slate-600 dark:text-slate-400 max-w-xl text-lg">Master the most in-demand skills of 2026. From basic computing to advanced AI tools.</p>
-            </div>
-            <Link href="/courses" className="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-semibold hover:gap-3 transition-all">
-              View All Courses <ChevronRight size={18} />
-            </Link>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {COURSES.map((course, i) => {
-              const Icon = course.icon;
-              return (
-                <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: i * 0.1 }} className="group rounded-3xl p-[1px] bg-gradient-to-b from-slate-200 to-slate-100 dark:from-white/10 dark:to-transparent hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 overflow-hidden">
-                  <div className="h-full bg-white dark:bg-[#111827] rounded-[23px] p-8 flex flex-col">
-                    <div className="w-14 h-14 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center mb-6 text-slate-600 dark:text-slate-300 group-hover:text-white group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-cyan-500 transition-all duration-300 shadow-sm">
-                      <Icon size={28} />
-                    </div>
-                    <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{course.title}</h3>
-                    <p className="text-slate-600 dark:text-slate-400 mb-8 flex-grow">{course.desc}</p>
-                    <Link href="/courses" className="w-full py-3 rounded-xl border border-slate-200 dark:border-white/10 font-semibold text-slate-700 dark:text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center">
-                      Learn More
-                    </Link>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* 5. Testimonials */}
       <section className="py-24 px-6 relative">

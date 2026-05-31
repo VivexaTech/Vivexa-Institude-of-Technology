@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase"; // Make sure your firebase.js path is correct
+import { db } from "@/lib/firebase"; 
 import { 
   Search, ShieldCheck, XCircle, Loader2, 
   User, BookOpen, Calendar, Award, CheckCircle2, 
@@ -30,6 +30,7 @@ export default function VerifyClient() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false); // Added state for download UX
 
   // Auto-verify if ID is present in the URL
   useEffect(() => {
@@ -48,7 +49,6 @@ export default function VerifyClient() {
     setError(false);
 
     try {
-      // Optimized: Direct document fetch using the entered ID
       const docRef = doc(db, "certificates", idToVerify.trim());
       const docSnap = await getDoc(docRef);
 
@@ -68,7 +68,6 @@ export default function VerifyClient() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchInput.trim()) {
-      // Push URL parameter so useEffect catches it and auto-verifies
       router.push(`/verify?id=${encodeURIComponent(searchInput.trim())}`);
     }
   };
@@ -80,15 +79,65 @@ export default function VerifyClient() {
     router.push("/verify");
   };
 
+  // --- Dynamic PDF Generator (Image to PDF) ---
+  const downloadAsPDF = async () => {
+    if (!result?.certificateImage) return;
+    setIsDownloading(true);
+
+    try {
+      // Dynamically import jsPDF to avoid Next.js SSR issues
+      const { jsPDF } = await import("jspdf");
+
+      // Fetch the image and draw to canvas to avoid CORS/format issues
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; // Crucial for Firebase Storage images
+      img.src = result.certificateImage;
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        
+        // Compress slightly to keep PDF size manageable
+        const imgData = canvas.toDataURL("image/jpeg", 0.9);
+
+        // Determine orientation based on image dimensions
+        const orientation = img.width > img.height ? "landscape" : "portrait";
+        const pdf = new jsPDF({
+          orientation: orientation,
+          unit: "mm",
+        });
+
+        // Fit image into the PDF while maintaining aspect ratio
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (img.height * pdfWidth) / img.width;
+
+        pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`${result.studentName.replace(/\s+/g, '_')}_Certificate.pdf`);
+        setIsDownloading(false);
+      };
+
+      img.onerror = () => {
+        console.error("Failed to load image for PDF generation");
+        setIsDownloading(false);
+        alert("Could not download the certificate. Please try again.");
+      };
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      setIsDownloading(false);
+    }
+  };
+
   // --- Dynamic LinkedIn URL Generator ---
   const getLinkedInUrl = () => {
     if (!result) return "#";
     
     const issueDateObj = new Date(result.issueDate);
     const issueYear = issueDateObj.getFullYear();
-    const issueMonth = issueDateObj.getMonth() + 1; // Months are 0-indexed in JS
+    const issueMonth = issueDateObj.getMonth() + 1;
     
-    // Fallback to window.location if not available during initial render
     const currentUrl = typeof window !== 'undefined' ? window.location.origin : '';
     const certUrl = encodeURIComponent(`${currentUrl}/verify?id=${result.certificateId}`);
     
@@ -251,7 +300,6 @@ export default function VerifyClient() {
                     </h3>
                     <div className="w-full bg-slate-100 dark:bg-black/50 rounded-2xl p-2 border border-slate-200 dark:border-white/10 shadow-inner">
                       <div className="relative w-full aspect-[1.414/1] overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800 group">
-                        {/* Lazy Loaded Image with Hover Zoom */}
                         <img 
                           src={result.certificateImage} 
                           alt={`Certificate for ${result.studentName}`} 
@@ -264,18 +312,17 @@ export default function VerifyClient() {
                   </div>
                 )}
 
-                {/* Actions: Download & LinkedIn */}
+                {/* Actions: Download (Now PDF from Image) & LinkedIn */}
                 <div className="flex flex-col sm:flex-row gap-4 mb-10">
-                  {result.certificatePdf && (
-                    <a 
-                      href={result.certificatePdf} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all active:scale-95 group"
+                  {result.certificateImage && (
+                    <button 
+                      onClick={downloadAsPDF}
+                      disabled={isDownloading}
+                      className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all active:scale-95 group disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      <Download size={22} className="group-hover:-translate-y-1 transition-transform" /> 
-                      Download Certificate
-                    </a>
+                      {isDownloading ? <Loader2 className="animate-spin" size={22} /> : <Download size={22} className="group-hover:-translate-y-1 transition-transform" />}
+                      {isDownloading ? "Generating PDF..." : "Download Certificate"}
+                    </button>
                   )}
                   
                   <a 
@@ -284,7 +331,6 @@ export default function VerifyClient() {
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-[#0077b5] text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(0,119,181,0.5)] hover:bg-[#006097] transition-all active:scale-95 group"
                   >
-                    {/* Native SVG LinkedIn Icon to bypass lucide-react versioning issues */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform">
                       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                       <rect x="2" y="9" width="4" height="12"></rect>
@@ -321,7 +367,6 @@ export default function VerifyClient() {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}
               className="w-full max-w-lg mx-auto p-10 rounded-[2rem] bg-white dark:bg-[#111827] border border-red-500/30 text-center shadow-2xl relative overflow-hidden"
             >
-               {/* Red Inner Glow */}
                <div className="absolute top-0 right-0 w-40 h-40 bg-red-500/10 rounded-full blur-[60px] pointer-events-none"></div>
 
               <div className="w-20 h-20 mx-auto bg-red-50 dark:bg-red-500/10 rounded-full flex items-center justify-center text-red-500 mb-6 relative z-10 shadow-inner border border-red-100 dark:border-red-500/20">
