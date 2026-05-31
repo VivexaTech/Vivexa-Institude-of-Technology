@@ -11,7 +11,7 @@ const QUICK_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: FaLinkedinIn, label: "LinkedIn", url: "https://www.linkedin.com/company/vivexa-tech/" },
+  { icon: FaLinkedinIn, label: "LinkedIn", url: "https://www.linkedin.com/company/vivexa-institute-of-technology" },
   { icon: FaInstagram, label: "Instagram", url: "https://www.instagram.com/vivexainstituteoftechnology" },
   { icon: FaXTwitter, label: "Twitter", url: "https://twitter.com/vivexatech" },
 ];
