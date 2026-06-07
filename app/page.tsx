@@ -22,7 +22,7 @@ export const metadata = {
     siteName: "Vivexa Institute of Technology",
     images: [
       {
-        url: "/og-home.jpg", // Ensure this image exists in your /public folder
+        url: "https://vit.vivexatech.in/logo.png", // Ensure this image exists in your /public folder
         width: 1200,
         height: 630,
         alt: "Vivexa Institute of Technology Campus",
@@ -35,7 +35,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Vivexa Institute of Technology",
     description: "Premium computer education and digital skills training.",
-    images: ["/og-home.jpg"],
+    images: ["https://vit.vivexatech.in/logo.png"],
   },
 };
 

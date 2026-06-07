@@ -20,7 +20,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-slate-50 dark:bg-slate-950 pt-20 pb-10 px-6 overflow-hidden border-t border-slate-200 dark:border-white/5">
+    <footer className="relative bg-slate-50 dark:bg-slate-950 pt-20 pb-10 px-6 overflow-hidden border-t border-slate-200 dark:border-white/5 ">
       {/* Subtle Top Gradient Line */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
 
