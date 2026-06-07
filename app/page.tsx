@@ -22,10 +22,10 @@ export const metadata = {
     siteName: "Vivexa Institute of Technology",
     images: [
       {
-        url: "https://vit.vivexatech.in/logo.png", // Ensure this image exists in your /public folder
+        url: "https://vit.vivexatech.in/icon1.png", // Ensure this image exists in your /public folder
         width: 1200,
         height: 630,
-        alt: "Vivexa Institute of Technology Campus",
+        alt: "Vivexa Institute of Technology",
       },
     ],
     locale: "en_IN",
@@ -35,7 +35,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Vivexa Institute of Technology",
     description: "Premium computer education and digital skills training.",
-    images: ["https://vit.vivexatech.in/logo.png"],
+    images: ["https://vit.vivexatech.in/icon1.png"],
   },
 };
 
@@ -60,7 +60,7 @@ export default function HomePage() {
         "@id": "https://vit.vivexatech.in/#organization",
         "name": "Vivexa Institute of Technology",
         "url": "https://vit.vivexatech.in",
-        "logo": "https://vit.vivexatech.in/logo.png",
+        "logo": "https://vit.vivexatech.in/icon1.png",
         "description": "Premium computer education institute offering practical digital skills training.",
         "address": {
           "@type": "PostalAddress",
