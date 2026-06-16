@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Monitor, BookOpen, Calculator, Code, Palette, 
@@ -8,6 +9,8 @@ import {
   Users, Award, Briefcase, FileText, PlayCircle, 
   GraduationCap, Cpu
 } from "lucide-react";
+import { usePublicCourses } from "@/hooks/usePublicCourses";
+import { getCourseIcon } from "@/lib/courseIcons";
 
 // --- Animation Variants ---
 const fadeInUp = {
@@ -23,32 +26,7 @@ const staggerContainer = {
   }
 };
 
-// --- Data Models ---
-const CATEGORIES = [
-  "All Courses", "Basic Computer", "Diploma", "Accounting", "Programming", "Design", "Future Skills"
-];
-
-const COURSES = [
-  { id: 1, category: "Basic Computer", title: "Basic Computer", desc: "Learn fundamental computer operations, OS basics, and daily tech usage.", duration: "1 Month", level: "Beginner", icon: Monitor },
-  { id: 2, category: "Basic Computer", title: "MS Office Masterclass", desc: "Complete training on Word, Excel, and PowerPoint for office productivity.", duration: "2 Months", level: "Beginner", icon: FileText },
-  { id: 3, category: "Basic Computer", title: "Internet Fundamentals", desc: "Safe browsing, email etiquette, cloud storage, and online security.", duration: "1 Month", level: "Beginner", icon: Sparkles },
-  
-  { id: 4, category: "Diploma", title: "DCA", desc: "Diploma in Computer Applications covering essential software and IT concepts.", duration: "6 Months", level: "Beginner", icon: BookOpen },
-  { id: 5, category: "Diploma", title: "ADCA", desc: "Advanced Diploma in Computer Applications with programming and web basics.", duration: "12 Months", level: "Intermediate", icon: GraduationCap },
-  
-  { id: 6, category: "Accounting", title: "Tally Prime + GST", desc: "Master modern accounting, inventory management, and taxation.", duration: "3 Months", level: "Intermediate", icon: Calculator },
-  
-  { id: 7, category: "Programming", title: "Web Development", desc: "Full-stack MERN training to build responsive and dynamic websites.", duration: "6 Months", level: "Intermediate", icon: Code },
-  { id: 8, category: "Programming", title: "HTML, CSS, JavaScript", desc: "Core frontend technologies to kickstart your web design career.", duration: "3 Months", level: "Beginner", icon: Monitor },
-  { id: 9, category: "Programming", title: "Programming Basics", desc: "Logic building and fundamental concepts using C/C++ or Python.", duration: "2 Months", level: "Beginner", icon: Cpu },
-  
-  { id: 10, category: "Design", title: "Graphic Design Pro", desc: "Master professional design using Adobe Photoshop and Illustrator.", duration: "4 Months", level: "Intermediate", icon: Palette },
-  { id: 11, category: "Design", title: "Canva & Photoshop Basics", desc: "Quickly learn to create stunning social media posts and graphics.", duration: "2 Months", level: "Beginner", icon: Palette },
-  
-  { id: 12, category: "Future Skills", title: "AI Tools Training", desc: "Learn to prompt and utilize ChatGPT, Midjourney, and top AI tools.", duration: "1 Month", level: "All Levels", icon: Sparkles },
-  { id: 13, category: "Future Skills", title: "Digital Skills Masterclass", desc: "Essential digital skills for the modern remote and hybrid workforce.", duration: "2 Months", level: "Beginner", icon: Briefcase },
-];
-
+// --- Static page content (not course catalog data) ---
 const FEATURES = [
   { title: "Practical Training", desc: "100% hands-on sessions with live projects.", icon: PlayCircle },
   { title: "Experienced Faculty", desc: "Learn directly from industry professionals.", icon: Users },
@@ -76,10 +54,11 @@ const BENEFITS = [
 
 export default function CoursesClient() {
   const [activeCategory, setActiveCategory] = useState("All Courses");
+  const { courses, categories, loading } = usePublicCourses();
 
-  const filteredCourses = activeCategory === "All Courses" 
-    ? COURSES 
-    : COURSES.filter(course => course.category === activeCategory);
+  const filteredCourses = activeCategory === "All Courses"
+    ? courses
+    : courses.filter((course) => course.category === activeCategory);
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden pb-20">
@@ -122,7 +101,7 @@ export default function CoursesClient() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="flex flex-wrap justify-center gap-3 mb-16"
           >
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -139,9 +118,20 @@ export default function CoursesClient() {
 
           {/* Courses Grid */}
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {loading && (
+              [...Array(6)].map((_, i) => (
+                <div key={i} className="h-80 rounded-[2rem] bg-slate-200 dark:bg-white/5 animate-pulse" />
+              ))
+            )}
+            {!loading && filteredCourses.length === 0 && (
+              <p className="col-span-full text-center text-slate-500 dark:text-slate-400 py-16">
+                No courses in this category yet.{" "}
+                <Link href="/admissions" className="text-blue-600 dark:text-cyan-400 font-semibold">Apply for admission</Link> to get started.
+              </p>
+            )}
             <AnimatePresence mode="popLayout">
-              {filteredCourses.map((course) => {
-                const Icon = course.icon;
+              {!loading && filteredCourses.map((course) => {
+                const Icon = getCourseIcon(course.title, course.category);
                 return (
                   <motion.div
                     layout
@@ -161,27 +151,31 @@ export default function CoursesClient() {
                           <Icon size={28} />
                         </div>
                         <span className="px-3 py-1 bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 text-xs font-bold rounded-full border border-slate-200 dark:border-white/10">
-                          {course.category}
+                          {course.category || "General"}
                         </span>
                       </div>
                       
                       <h3 className="text-2xl font-black mb-3 text-slate-900 dark:text-white relative z-10">{course.title}</h3>
                       <p className="text-slate-600 dark:text-slate-400 mb-8 flex-grow relative z-10 line-clamp-2">
-                        {course.desc}
+                        {course.description}
                       </p>
                       
                       <div className="flex items-center gap-4 text-sm font-semibold text-slate-500 dark:text-slate-400 mb-8 relative z-10">
+                        {course.duration && (
                         <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-white/5">
                           <Clock size={16} className="text-blue-500" /> {course.duration}
                         </div>
+                        )}
+                        {course.level && (
                         <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-white/5">
                           <BarChart size={16} className="text-cyan-500" /> {course.level}
                         </div>
+                        )}
                       </div>
 
-                      <button className="w-full py-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 font-bold text-slate-700 dark:text-slate-200 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-cyan-500 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 relative z-10">
-                        Learn More <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      <Link href="/admissions" className="w-full py-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 font-bold text-slate-700 dark:text-slate-200 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-cyan-500 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 relative z-10">
+                        Apply Now <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                      </Link>
                     </div>
                   </motion.div>
                 );

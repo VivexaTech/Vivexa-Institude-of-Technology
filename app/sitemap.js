@@ -31,6 +31,12 @@ export default function sitemap() {
       priority: 0.7,
     },
     {
+      url: "https://vit.vivexatech.in/verify",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: "https://vit.vivexatech.in/terms",
       lastModified: new Date(),
       changeFrequency: "yearly",

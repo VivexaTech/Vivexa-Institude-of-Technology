@@ -12,12 +12,12 @@ export const metadata = {
   ],
   authors: [{ name: "Vivexa Institute of Technology" }],
   alternates: {
-    canonical: "https://vit.vivexatech.in/admission",
+    canonical: "https://vit.vivexatech.in/admissions",
   },
   openGraph: {
     title: "Admissions Open 2026 | Vivexa Institute of Technology",
     description: "Start your journey toward future-ready digital skills. Apply today for our premium computer courses.",
-    url: "https://vit.vivexatech.in/admission",
+    url: "https://vit.vivexatech.in/admissions",
     siteName: "Vivexa Institute of Technology",
     images: [
       {

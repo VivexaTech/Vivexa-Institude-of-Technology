@@ -5,8 +5,8 @@ import { FaLinkedinIn, FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/
 const QUICK_LINKS = [
   { name: "About Us", href: "/about" },
   { name: "All Courses", href: "/courses" },
-  { name: "Admissions", href: "/admission" },
-  { name: "Student Gallery", href: "/gallery" },
+  { name: "Admissions", href: "/admissions" },
+  { name: "Verify Certificate", href: "/verify" },
   { name: "Contact Us", href: "/contact" },
 ];
 

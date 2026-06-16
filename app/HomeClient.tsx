@@ -4,26 +4,11 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { 
   MonitorPlay, Code, PenTool, Database, Award, Users, 
-  BookOpen, Briefcase, ArrowRight, ChevronRight, Star,
+  BookOpen, Briefcase, ArrowRight, ChevronRight,
   CheckCircle2, ShieldCheck, Building2, Rocket, FileCheck, Search
 } from "lucide-react";
-
-// --- Data Arrays ---
-const COURSES = [
-  { title: "ADCA", desc: "Advanced Diploma in Computer Applications.", icon: MonitorPlay },
-  { title: "DCA", desc: "Diploma in Computer Applications.", icon: BookOpen },
-  { title: "Tally + GST", desc: "Master accounting and taxation.", icon: Database },
-  { title: "Web Development", desc: "MERN stack, React, Next.js.", icon: Code },
-  { title: "Graphic Design", desc: "Photoshop, Illustrator, UI/UX.", icon: PenTool },
-  { title: "AI Tools", desc: "Master ChatGPT, Midjourney, and more.", icon: Award },
-];
-
-const STATS = [
-  { value: "50+", label: "Students Trained" },
-  { value: "20+", label: "Premium Courses" },
-  { value: "95%", label: "Satisfaction Rate" },
-  { value: "100%", label: "Career Support" },
-];
+import { usePublicCourses } from "@/hooks/usePublicCourses";
+import { getCourseIcon } from "@/lib/courseIcons";
 
 const FEATURES = [
   { title: "Expert Faculty", icon: Users, desc: "Learn from industry veterans with years of real-world experience." },
@@ -32,10 +17,10 @@ const FEATURES = [
   { title: "Career Guidance", icon: Award, desc: "Dedicated placement assistance and resume building workshops." },
 ];
 
-const TESTIMONIALS = [
-  { name: "Rahul Sharma", role: "Web Developer", text: "Vivexa completely changed my career trajectory. The practical training is unmatched." },
-  { name: "Priya Singh", role: "Graphic Designer", text: "The UI/UX and design courses are incredibly detailed. Highly recommend to everyone." },
-  { name: "Amit Kumar", role: "Accountant", text: "Tally+GST course helped me secure a job within weeks of completion. Great faculty!" },
+const TRUST_PILLARS = [
+  { title: "Industry-Aligned Curriculum", desc: "Courses updated to match current IT and digital skill requirements." },
+  { title: "Hands-On Learning", desc: "Practical labs, assignments, and real-world projects in every program." },
+  { title: "Verified Credentials", desc: "Secure online certificate verification for employers and students." },
 ];
 
 const INTERNSHIP_BENEFITS = [
@@ -75,6 +60,15 @@ const fadeInUp: Variants = {
 
 
 export default function HomeClient() {
+  const { displayCourses, courses, loading: coursesLoading } = usePublicCourses();
+
+  const stats = [
+    { value: courses.length > 0 ? `${courses.length}+` : "—", label: "Active Courses" },
+    { value: "100%", label: "Practical Training" },
+    { value: "Live", label: "Expert Faculty" },
+    { value: "24/7", label: "Career Support" },
+  ];
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden">
       
@@ -144,7 +138,7 @@ export default function HomeClient() {
       <section className="py-12 border-y border-slate-200 dark:border-white/5 bg-white/50 dark:bg-[#0d1425]/50 backdrop-blur-md relative z-10">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-200 dark:divide-white/10">
-            {STATS.map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: i * 0.1 }} className="text-center px-4">
                 <h3 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">{stat.value}</h3>
                 <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-2 uppercase tracking-wide">{stat.label}</p>
@@ -168,16 +162,27 @@ export default function HomeClient() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {COURSES.map((course, i) => {
-              const Icon = course.icon;
+            {coursesLoading && (
+              [...Array(3)].map((_, i) => (
+                <div key={i} className="h-64 rounded-3xl bg-slate-200 dark:bg-white/5 animate-pulse" />
+              ))
+            )}
+            {!coursesLoading && displayCourses.length === 0 && (
+              <p className="col-span-full text-center text-slate-500 dark:text-slate-400 py-12">
+                Courses are being updated. Please check back soon or{" "}
+                <Link href="/contact" className="text-blue-600 dark:text-cyan-400 font-semibold">contact us</Link>.
+              </p>
+            )}
+            {!coursesLoading && displayCourses.map((course, i) => {
+              const Icon = getCourseIcon(course.title, course.category);
               return (
-                <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: i * 0.1 }} className="group rounded-3xl p-[1px] bg-gradient-to-b from-slate-200 to-slate-100 dark:from-white/10 dark:to-transparent hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 overflow-hidden">
+                <motion.div key={course.id} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: i * 0.1 }} className="group rounded-3xl p-[1px] bg-gradient-to-b from-slate-200 to-slate-100 dark:from-white/10 dark:to-transparent hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 overflow-hidden">
                   <div className="h-full bg-white dark:bg-[#111827] rounded-[23px] p-8 flex flex-col">
                     <div className="w-14 h-14 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center mb-6 text-slate-600 dark:text-slate-300 group-hover:text-white group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-cyan-500 transition-all duration-300 shadow-sm">
                       <Icon size={28} />
                     </div>
                     <h3 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">{course.title}</h3>
-                    <p className="text-slate-600 dark:text-slate-400 mb-8 flex-grow">{course.desc}</p>
+                    <p className="text-slate-600 dark:text-slate-400 mb-8 flex-grow line-clamp-3">{course.description}</p>
                     <Link href="/courses" className="w-full py-3 rounded-xl border border-slate-200 dark:border-white/10 font-semibold text-slate-700 dark:text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center">
                       Learn More
                     </Link>
@@ -278,22 +283,16 @@ export default function HomeClient() {
 
 
 
-      {/* 5. Testimonials */}
+      {/* 5. Trust Pillars */}
       <section className="py-24 px-6 relative">
         <div className="container mx-auto max-w-6xl text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-16 text-slate-900 dark:text-white">Student <span className="text-blue-600 dark:text-cyan-400">Success Stories</span></h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-16 text-slate-900 dark:text-white">Why Students <span className="text-blue-600 dark:text-cyan-400">Choose Vivexa</span></h2>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((testimonial, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="bg-white dark:bg-[#111827] p-8 rounded-3xl border border-slate-200 dark:border-white/5 shadow-sm relative">
-                <div className="flex gap-1 text-yellow-400 mb-6 justify-center">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
-                </div>
-                <p className="text-slate-600 dark:text-slate-400 italic mb-6">"{testimonial.text}"</p>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white">{testimonial.name}</h4>
-                  <span className="text-sm text-blue-600 dark:text-cyan-400 font-medium">{testimonial.role}</span>
-                </div>
+            {TRUST_PILLARS.map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="bg-white dark:bg-[#111827] p-8 rounded-3xl border border-slate-200 dark:border-white/5 shadow-sm">
+                <h4 className="font-bold text-xl text-slate-900 dark:text-white mb-3">{item.title}</h4>
+                <p className="text-slate-600 dark:text-slate-400">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -361,28 +360,24 @@ export default function HomeClient() {
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Certificate ID</label>
-                    <div className="flex items-center w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 cursor-not-allowed text-slate-400">
-                      <Search size={18} className="mr-3 text-slate-400" />
-                      <span className="font-mono tracking-wider">VIT-2026-001</span>
+                    <div className="flex items-center w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 text-slate-400">
+                      <Search size={18} className="mr-3 text-slate-400 shrink-0" />
+                      <span className="font-mono tracking-wider text-sm">Enter certificate ID on verify page</span>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Direct Verification URL</label>
-                    <div className="flex items-center w-full px-5 py-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-cyan-400 break-all cursor-not-allowed">
-                      <span className="font-mono text-sm">vit.vivexatech.in/verify?id=VIT-2026-001</span>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Verification URL</label>
+                    <div className="flex items-center w-full px-5 py-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-cyan-400 break-all">
+                      <span className="font-mono text-sm">vit.vivexatech.in/verify</span>
                     </div>
                   </div>
 
-                  {/* Mock Verified Status */}
-                  <div className="mt-8 p-4 rounded-xl bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 flex items-center gap-4">
-                    <div className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </div>
+                  <div className="mt-8 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center gap-4">
+                    <ShieldCheck className="text-blue-600 dark:text-cyan-400 shrink-0" size={24} />
                     <div>
-                      <p className="font-bold text-green-700 dark:text-green-400">Status: Verified Authentic</p>
-                      <p className="text-xs text-green-600/80 dark:text-green-400/80 mt-0.5">Institute digitally signed</p>
+                      <p className="font-bold text-slate-700 dark:text-slate-200">Secure verification portal</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Use your unique certificate ID to confirm authenticity</p>
                     </div>
                   </div>
                 </div>

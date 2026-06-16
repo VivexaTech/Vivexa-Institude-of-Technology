@@ -48,12 +48,7 @@ export default function HomePage() {
         "@type": "WebSite",
         "@id": "https://vit.vivexatech.in/#website",
         "url": "https://vit.vivexatech.in",
-        "name": "Vivexa Institute of Technology",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://vit.vivexatech.in/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "name": "Vivexa Institute of Technology"
       },
       {
         "@type": "EducationalOrganization",

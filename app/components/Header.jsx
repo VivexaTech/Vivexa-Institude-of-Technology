@@ -2,15 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 // Standardized Navigation Array
 const NAV_LINKS = [
   { name: "About", path: "/about" },
   { name: "Courses", path: "/courses" },
   { name: "Admissions", path: "/admissions" },
-  { name: "Gallery", path: "/gallery" },
+  { name: "Verify Certificate", path: "/verify" },
   { name: "Contact", path: "/contact" },
 ];
 
@@ -18,7 +17,6 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   // Handle scroll effect for glassmorphism background
   useEffect(() => {
