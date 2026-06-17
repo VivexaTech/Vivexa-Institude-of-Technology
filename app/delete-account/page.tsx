@@ -45,12 +45,6 @@ const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
   
   return (
     <div className="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-2xl font-bold text-blue-800">Vivexa Institute of Technology</h1>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="flex-grow max-w-4xl mx-auto px-4 py-12 w-full">
@@ -207,10 +201,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-6 text-center text-sm mt-auto">
-        <p>&copy; {new Date().getFullYear()} Vivexa Institute of Technology. All rights reserved.</p>
-      </footer>
+
     </div>
   );
 }
