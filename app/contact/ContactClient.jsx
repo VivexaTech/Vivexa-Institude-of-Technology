@@ -214,7 +214,7 @@ export default function ContactClient() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        placeholder="John Doe" 
+                        placeholder="Enter Your Name" 
                         className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" 
                       />
                     </div>
@@ -226,7 +226,7 @@ export default function ContactClient() {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        placeholder="+91 95821 94338" 
+                        placeholder="Enter Your Phone Number" 
                         className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" 
                       />
                     </div>
@@ -240,7 +240,7 @@ export default function ContactClient() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      placeholder="john@example.com" 
+                      placeholder="Enter Your Email Address" 
                       className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" 
                     />
                   </div>
