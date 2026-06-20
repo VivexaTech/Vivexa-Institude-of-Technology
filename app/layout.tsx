@@ -87,43 +87,61 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    name: "Vivexa Institute of Technology",
-    url: "https://vit.vivexatech.in",
-    logo: "https://vit.vivexatech.in/icon1.png",
-    description:
-      "Premium computer education institute offering practical IT training and future-ready digital skills.",
-    email: "contact@vivexatech.in",
-    telephone: "+91 9354486861",
-    sameAs: [
-      "https://www.linkedin.com/company/vivexa-tech",
-      "https://www.instagram.com/vivexainstituteoftechnology",
-    ],
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "@id": "https://vit.vivexatech.in/#organization",
 
-    other:{
-      "application-name": "Vivexa Institute of Technology",
-    }
-  };
+  name: "Vivexa Institute of Technology",
+  alternateName: "VIT",
+
+  url: "https://vit.vivexatech.in",
+  logo: "https://vit.vivexatech.in/icon1.png",
+  image: "https://vit.vivexatech.in/icon1.png",
+
+  description:
+    "Vivexa Institute of Technology provides professional computer education, web development, graphic design, digital marketing, AI and industry-ready IT training.",
+
+  email: "contact@vivexatech.in",
+  telephone: "+91 9354486861",
+
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Gurugram",
+    addressRegion: "Haryana",
+    addressCountry: "IN"
+  },
+
+  sameAs: [
+    "https://www.instagram.com/vivexainstituteoftechnology",
+    "https://www.linkedin.com/company/vivexa-institute-of-technology"
+  ]
+};
 
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Vivexa Institute of Technology",
-    url: "https://vit.vivexatech.in",
-    description:
-      "Premium computer education institute offering practical IT training and future-ready digital skills.",
-    publisher: {
-      "@type": "Organization",
-      name: "Vivexa Institute of Technology",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://vit.vivexatech.in/icon1.png",
-      },
-    },
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+
+  "@id": "https://vit.vivexatech.in/#website",
+
+  url: "https://vit.vivexatech.in",
+  name: "Vivexa Institute of Technology",
+
+  publisher: {
+    "@id": "https://vit.vivexatech.in/#organization"
+  },
+
+  potentialAction: {
+    "@type": "SearchAction",
+    target:
+      "https://vit.vivexatech.in/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
   }
+};
+
+
   return (
     <html
       lang="en"

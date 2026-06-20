@@ -80,7 +80,7 @@ export default function Footer() {
           <ul className="space-y-4 text-slate-600 dark:text-slate-400 font-medium">
             <li className="flex items-start gap-3 group">
               <MapPin size={20} className="text-blue-500 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" /> 
-              <span>Cyber Hub, Gurugram,<br/>Haryana, India</span>
+              <span>ekta tower, Plot no 13, Main Rd, Block A,<br /> Ashok Vihar Phase III Extension, <br /> Gurugram, Haryana 122006</span>
             </li>
             <li className="flex items-center gap-3 group">
               <Phone size={20} className="text-blue-500 shrink-0 group-hover:scale-110 transition-transform" /> 

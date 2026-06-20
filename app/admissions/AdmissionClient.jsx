@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Script from "next/script";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePublicCourses } from "@/hooks/usePublicCourses";
 import { 
   Rocket, MousePointerClick, FileEdit, UserCheck, 
   CheckCircle, PlayCircle, Send, RotateCcw,
@@ -72,6 +73,7 @@ const FAQS = [
 ];
 
 export default function AdmissionClient() {
+  const { courses: liveCourses, loading: coursesLoading } = usePublicCourses();
   const [openFaq, setOpenFaq] = useState(0);
 
   // --- Form State ---
@@ -91,6 +93,7 @@ export default function AdmissionClient() {
   const [formData, setFormData] = useState(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [submitError, setSubmitError] = useState("");
 
   // --- Form Handlers ---
   const handleChange = (e) => {
@@ -110,6 +113,7 @@ export default function AdmissionClient() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setSubmitError("");
 
     try {
       // 1. Generate reCAPTCHA v3 token
@@ -139,10 +143,13 @@ export default function AdmissionClient() {
         setSubmitStatus('success');
         setFormData(initialFormState);
       } else {
+        const data = await response.json().catch(() => ({}));
+        setSubmitError(data.error || 'Submission failed. Please try again.');
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Submission error:', error);
+      setSubmitError(error.message || 'Submission failed. Please try again.');
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -349,8 +356,10 @@ export default function AdmissionClient() {
                         className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all" 
                         required
                       >
-                        <option value="" className="text-slate-900">Choose a Course...</option>
-                        {COURSES.map(c => <option key={c.title} value={c.title} className="text-slate-900">{c.title}</option>)}
+                        <option value="" className="text-slate-900">{coursesLoading ? "Loading courses..." : "Choose a Course..."}</option>
+                        {(liveCourses.length > 0 ? liveCourses : COURSES.map((c) => ({ title: c.title }))).map((c) => (
+                          <option key={c.title} value={c.title} className="text-slate-900">{c.title}</option>
+                        ))}
                       </select>
                     </div>
                     <div className="space-y-2">
@@ -440,7 +449,7 @@ export default function AdmissionClient() {
                         <AlertCircle className="shrink-0 mt-0.5" size={24} />
                         <div>
                           <p className="font-bold">Submission Failed</p>
-                          <p className="text-sm mt-1 opacity-90">Something went wrong while submitting your form. Please try again or contact us directly.</p>
+                          <p className="text-sm mt-1 opacity-90">{submitError || "Something went wrong while submitting your form. Please try again or contact us directly."}</p>
                         </div>
                       </motion.div>
                     )}

@@ -25,7 +25,7 @@ const staggerContainer = {
 
 // --- Data Models ---
 const CONTACT_INFO = [
-  { title: "Our Address", detail: "Cyber Hub, Gurugram, Haryana, India", icon: MapPin },
+  { title: "Our Address", detail: "ekta tower, Plot no 13, Main Rd, Block A, Ashok Vihar Phase III Extension, Gurugram, Haryana 122006", icon: MapPin },
   { title: "Phone Number", detail: "+91 93544 86861", icon: Phone },
   { title: "Email Address", detail: "info@vivexatech.in", icon: Mail },
   { title: "Working Hours", detail: "Mon - Sat | 9:00 AM - 6:00 PM", icon: Clock },

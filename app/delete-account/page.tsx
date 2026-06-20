@@ -200,8 +200,6 @@ const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
           </div>
         </div>
       </main>
-
-
     </div>
   );
 }

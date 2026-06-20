@@ -1,197 +1,114 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { db } from '@/lib/firebase';
-import { collection, doc, runTransaction, serverTimestamp, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-// Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { 
-      fullName, fatherName, email, phone, 
-      dob, gender, course, qualification, 
-      address, message, token 
+    const {
+      fullName,
+      fatherName,
+      email,
+      phone,
+      dob,
+      gender,
+      course,
+      qualification,
+      address,
+      message,
+      token,
     } = body;
 
-    // 1. Basic Validation Check
-    if (!fullName || !fatherName || !phone || !dob || !gender || !course || !qualification || !address || !token) {
+    if (!fullName?.trim() || !phone?.trim() || !course?.trim() || !token) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Full name, phone, course, and verification are required.' },
         { status: 400 }
       );
     }
 
-    // 2. Verify Google reCAPTCHA v3 Token
-    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`;
+    if (!RECAPTCHA_SECRET_KEY) {
+      return NextResponse.json(
+        { error: 'Server configuration error: reCAPTCHA is not configured.' },
+        { status: 503 }
+      );
+    }
+
+    const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
     const verifyRes = await fetch(verifyUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `secret=${RECAPTCHA_SECRET_KEY}&response=${token}`,
     });
-
     const verifyData = await verifyRes.json();
 
-    // Block spam: A score below 0.5 is usually considered a bot.
     if (!verifyData.success || verifyData.score < 0.5) {
       return NextResponse.json(
-        { error: 'reCAPTCHA verification failed. Spam activity suspected.' },
+        { error: 'reCAPTCHA verification failed. Please try again.' },
         { status: 400 }
       );
     }
 
-    // 3 & 4. Execute Email and Database operations in parallel
+    const enquiryData = {
+      fullName: fullName.trim(),
+      email: (email || '').trim(),
+      phone: phone.trim(),
+      course: course.trim(),
+      message: (message || '').trim(),
+      fatherName: (fatherName || '').trim(),
+      qualification: (qualification || '').trim(),
+      address: (address || '').trim(),
+      dob: (dob || '').trim(),
+      gender: (gender || '').trim(),
+      status: 'New',
+      source: 'Website Admission Form',
+      createdAt: serverTimestamp(),
+    };
+
     const emailPromise = resend.emails.send({
       from: 'noreply@vivexatech.in',
-      to: 'contact@vivexatech.in', // Adjust this destination email as necessary
-      subject: `New Admission Form: ${fullName} - ${course}`,
+      to: 'contact@vivexatech.in',
+      subject: `New Admission Enquiry: ${fullName} - ${course}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 650px; margin: 0 auto; color: #1e293b;">
-          <div style="background-color: #2563eb; padding: 20px; border-radius: 8px 8px 0 0; color: white;">
-            <h2 style="margin: 0;">New Online Admission Request</h2>
-            <p style="margin: 5px 0 0 0; opacity: 0.9;">Course: ${course}</p>
-          </div>
-          
-          <div style="padding: 20px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
-            <h3 style="color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Personal Details</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; width: 150px; color: #64748b;"><strong>Student Name:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-weight: bold;">${fullName}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #64748b;"><strong>Father's Name:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">${fatherName}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #64748b;"><strong>Date of Birth:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">${dob}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #64748b;"><strong>Gender:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; text-transform: capitalize;">${gender}</td>
-              </tr>
-            </table>
-
-            <h3 style="color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Contact & Address</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; width: 150px; color: #64748b;"><strong>Phone:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
-                  <a href="tel:${phone}" style="color: #2563eb; text-decoration: none;">${phone}</a>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #64748b;"><strong>Email:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
-                  ${email ? `<a href="mailto:${email}" style="color: #2563eb; text-decoration: none;">${email}</a>` : 'Not Provided'}
-                </td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #64748b;"><strong>Full Address:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">${address}</td>
-              </tr>
-            </table>
-
-            <h3 style="color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Academic Details</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; width: 150px; color: #64748b;"><strong>Course Selected:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-weight: bold; color: #2563eb;">${course}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: #64748b;"><strong>Qualification:</strong></td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">${qualification}</td>
-              </tr>
-            </table>
-
-            ${message ? `
-            <div style="margin-top: 20px;">
-              <h3 style="color: #0f172a; margin-bottom: 10px;">Additional Message:</h3>
-              <p style="background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; white-space: pre-wrap; margin: 0;">${message}</p>
-            </div>
-            ` : ''}
-            
-            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed #cbd5e1; font-size: 12px; color: #94a3b8; text-align: center;">
-              <p>Form submission verified by Google reCAPTCHA v3 (Trust Score: ${verifyData.score})</p>
-            </div>
-          </div>
+          <h2 style="color: #2563eb;">New Website Admission Enquiry</h2>
+          <p><strong>Name:</strong> ${fullName}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Email:</strong> ${email || 'Not provided'}</p>
+          <p><strong>Course:</strong> ${course}</p>
+          ${message ? `<p><strong>Message:</strong> ${message}</p>` : ''}
         </div>
       `,
     });
 
-    const dbPromise = (async () => {
-      const currentYear = new Date().getFullYear();
-      const counterRef = doc(db, 'counters', 'admissions');
+    let docRef;
+    try {
+      docRef = await addDoc(collection(db, 'admission_enquiries'), enquiryData);
+    } catch (dbError) {
+      console.error('Admission enquiry Firestore save failed:', dbError);
+      return NextResponse.json(
+        { error: 'Failed to save your enquiry. Please try again or call us directly.' },
+        { status: 500 }
+      );
+    }
 
-      const admissionId = await runTransaction(db, async (transaction) => {
-        const counterDoc = await transaction.get(counterRef);
+    try {
+      await emailPromise;
+    } catch (emailError) {
+      console.error('Admission enquiry email failed:', emailError);
+      // Enquiry is saved — do not fail the user-facing response
+    }
 
-        let newCount = 1;
-        if (counterDoc.exists()) {
-          const data = counterDoc.data();
-          if (data.year === currentYear) {
-            newCount = data.count + 1;
-          }
-        }
-
-        const formattedId = `VIT-ADM-${currentYear}-${String(newCount).padStart(3, '0')}`;
-
-        transaction.set(counterRef, {
-          year: currentYear,
-          count: newCount
-        });
-
-        return formattedId;
-      });
-
-      await addDoc(collection(db, 'admissions'), {
-        admissionId: admissionId,
-        fullName,
-        fatherName,
-        email: email || '', // Might not be provided based on previous code
-        phone,
-        dob,
-        gender,
-        course,
-        qualification,
-        city: address,
-        message: message || '',
-        status: "Pending",
-        source: "Website Admission Form",
-        createdAt: serverTimestamp()
-      });
-    })();
-
-    const startTime = Date.now();
-    Promise.allSettled([emailPromise, dbPromise]).then(([emailResult, dbResult]) => {
-      const duration = Date.now() - startTime;
-      console.log(`Admission APIs execution time: ${duration}ms`);
-
-      if (emailResult.status === 'rejected') {
-        console.error('Admission Form Email sending failed:', emailResult.reason);
-      } else {
-        console.log('Admission Form Email sent successfully.');
-      }
-
-      if (dbResult.status === 'rejected') {
-        console.error('Admission Form Firebase save failed:', dbResult.reason);
-      } else {
-        console.log('Admission Form Firebase save successful.');
-      }
+    return NextResponse.json({
+      success: true,
+      id: docRef.id,
+      message: 'Your admission enquiry was submitted successfully.',
     });
-
-    // Return success instantly, without waiting for the email or database to finish
-    return NextResponse.json({ success: true, message: "Form submitted successfully" }, { status: 200 });
   } catch (error) {
     console.error('Admission Form Error:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
