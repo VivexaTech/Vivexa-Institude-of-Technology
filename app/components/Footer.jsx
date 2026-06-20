@@ -80,11 +80,11 @@ export default function Footer() {
           <ul className="space-y-4 text-slate-600 dark:text-slate-400 font-medium">
             <li className="flex items-start gap-3 group">
               <MapPin size={20} className="text-blue-500 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" /> 
-              <span>ekta tower, Plot no 13, Main Rd, Block A,<br /> Ashok Vihar Phase III Extension, <br /> Gurugram, Haryana 122006</span>
+              <span>Ekta tower, Basement, Main Rd,<br /> Ashok Vihar Phase III Extension, <br /> Gurugram, Haryana 122006</span>
             </li>
             <li className="flex items-center gap-3 group">
               <Phone size={20} className="text-blue-500 shrink-0 group-hover:scale-110 transition-transform" /> 
-              <a href="tel:+919354486861" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">+91 93544 86861</a>
+              <a href="tel:+919582194338" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">+91 95821 94338</a>
             </li>
             <li className="flex items-center gap-3 group">
               <Mail size={20} className="text-blue-500 shrink-0 group-hover:scale-110 transition-transform" /> 

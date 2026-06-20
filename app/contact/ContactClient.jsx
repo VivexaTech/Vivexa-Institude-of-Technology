@@ -25,8 +25,8 @@ const staggerContainer = {
 
 // --- Data Models ---
 const CONTACT_INFO = [
-  { title: "Our Address", detail: "ekta tower, Plot no 13, Main Rd, Block A, Ashok Vihar Phase III Extension, Gurugram, Haryana 122006", icon: MapPin },
-  { title: "Phone Number", detail: "+91 93544 86861", icon: Phone },
+  { title: "Our Address", detail: "Ekta tower, Basement, Plot no 13, Main Rd, Block A, Ashok Vihar Phase III Extension, Gurugram, Haryana 122006", icon: MapPin },
+  { title: "Phone Number", detail: "+91 95821 94338", icon: Phone },
   { title: "Email Address", detail: "info@vivexatech.in", icon: Mail },
   { title: "Working Hours", detail: "Mon - Sat | 9:00 AM - 6:00 PM", icon: Clock },
 ];
@@ -226,7 +226,7 @@ export default function ContactClient() {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        placeholder="+91 93544 86861" 
+                        placeholder="+91 95821 94338" 
                         className="w-full px-5 py-4 rounded-xl bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" 
                       />
                     </div>
@@ -325,7 +325,7 @@ export default function ContactClient() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 mix-blend-overlay pointer-events-none z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
                 
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112173.08077583624!2d76.94580226343516!3d28.422896229555627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19d582e38859%3A0x2cf5fe8e5c64b1e!2sGurugram%2C%20Haryana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d219.14637592417543!2d77.02581636396627!3d28.499377788020958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1781933375183!5m2!1sen!2sin" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
