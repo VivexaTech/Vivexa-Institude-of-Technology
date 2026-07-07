@@ -1,4 +1,5 @@
 import CoursesClient from "./CoursesClient";
+import { getPublicCourses } from "@/lib/getPublicCourses";
 
 export const metadata = {
   title: "Professional Computer Courses | Vivexa Institute of Technology",
@@ -41,55 +42,26 @@ export const metadata = {
   },
 };
 
-export default function CoursesPage() {
-  // JSON-LD Structured Data for Course Lists (Boosts SEO for educational sites)
+export default async function CoursesPage() {
+  const courses = await getPublicCourses();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "item": {
-          "@type": "Course",
-          "url": "https://vit.vivexatech.in/courses",
-          "name": "Web Development",
-          "description": "Full-stack MERN training to build responsive and dynamic websites.",
-          "provider": {
-            "@type": "EducationalOrganization",
-            "name": "Vivexa Institute of Technology"
-          }
-        }
+    "itemListElement": courses.slice(0, 12).map((course, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Course",
+        url: "https://vit.vivexatech.in/courses",
+        name: course.title || course.id,
+        description: course.description || "",
+        provider: {
+          "@type": "EducationalOrganization",
+          name: "Vivexa Institute of Technology",
+        },
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "item": {
-          "@type": "Course",
-          "url": "https://vit.vivexatech.in/courses",
-          "name": "Tally Prime + GST",
-          "description": "Master modern accounting, inventory management, and taxation.",
-          "provider": {
-            "@type": "EducationalOrganization",
-            "name": "Vivexa Institute of Technology"
-          }
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "item": {
-          "@type": "Course",
-          "url": "https://vit.vivexatech.in/courses",
-          "name": "Graphic Design Pro",
-          "description": "Master professional design using Adobe Photoshop and Illustrator.",
-          "provider": {
-            "@type": "EducationalOrganization",
-            "name": "Vivexa Institute of Technology"
-          }
-        }
-      }
-    ]
+    })),
   };
 
   return (
@@ -98,7 +70,7 @@ export default function CoursesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <CoursesClient />
+      <CoursesClient initialCourses={courses} />
     </>
   );
 }

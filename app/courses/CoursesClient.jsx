@@ -52,16 +52,16 @@ const BENEFITS = [
   { title: "Skill-Based Learning", icon: Award },
 ];
 
-export default function CoursesClient() {
+export default function CoursesClient({ initialCourses = [] }) {
   const [activeCategory, setActiveCategory] = useState("All Courses");
-  const { courses, categories, loading } = usePublicCourses();
+  const { courses, categories, loading } = usePublicCourses(initialCourses);
 
   const filteredCourses = activeCategory === "All Courses"
     ? courses
     : courses.filter((course) => course.category === activeCategory);
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden pb-20">
+    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30 overflow-hidden pb-20">
       
       {/* 1. Premium Hero Section */}
       <section className="relative pt-32 pb-20 px-6 flex flex-col items-center justify-center text-center min-h-[60vh]">
@@ -79,13 +79,13 @@ export default function CoursesClient() {
 
         <div className="container mx-auto max-w-4xl relative z-10">
           <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
-            <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-cyan-400 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm">
+            <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm">
               Accelerate Your Career
             </motion.div>
             <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-8">
               Our Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">Courses</span>
             </motion.h1>
-            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
               Learn practical digital skills and build your future with industry-relevant computer education at Vivexa Institute of Technology.
             </motion.p>
           </motion.div>
@@ -108,7 +108,7 @@ export default function CoursesClient() {
                 className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 backdrop-blur-sm border ${
                   activeCategory === cat 
                     ? "bg-blue-600 text-white border-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-105" 
-                    : "bg-white/50 dark:bg-white/5 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-cyan-400"
+                    : "bg-white/50 text-slate-600 border-slate-200 hover:border-blue-500/50 hover:text-blue-600"
                 }`}
               >
                 {cat}
@@ -120,13 +120,13 @@ export default function CoursesClient() {
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loading && (
               [...Array(6)].map((_, i) => (
-                <div key={i} className="h-80 rounded-[2rem] bg-slate-200 dark:bg-white/5 animate-pulse" />
+                <div key={i} className="h-80 rounded-[2rem] bg-slate-200 animate-pulse" />
               ))
             )}
             {!loading && filteredCourses.length === 0 && (
-              <p className="col-span-full text-center text-slate-500 dark:text-slate-400 py-16">
+              <p className="col-span-full text-center text-slate-500 py-16">
                 No courses in this category yet.{" "}
-                <Link href="/admissions" className="text-blue-600 dark:text-cyan-400 font-semibold">Apply for admission</Link> to get started.
+                <Link href="/admissions" className="text-blue-600 font-semibold">Apply for admission</Link> to get started.
               </p>
             )}
             <AnimatePresence mode="popLayout">
@@ -140,40 +140,40 @@ export default function CoursesClient() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
                     key={course.id}
-                    className="group rounded-[2rem] p-1 bg-gradient-to-b from-slate-200 to-slate-100 dark:from-white/10 dark:to-transparent hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 h-full flex flex-col"
+                    className="group rounded-[2rem] p-1 bg-gradient-to-b from-slate-200 to-slate-100 hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 h-full flex flex-col"
                   >
-                    <div className="h-full bg-white dark:bg-[#0d1425] rounded-[31px] p-8 flex flex-col relative overflow-hidden">
+                    <div className="h-full bg-white rounded-[31px] p-8 flex flex-col relative overflow-hidden">
                       {/* Inner Glow Hover */}
                       <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       
                       <div className="flex justify-between items-start mb-6 relative z-10">
-                        <div className="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                           <Icon size={28} />
                         </div>
-                        <span className="px-3 py-1 bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 text-xs font-bold rounded-full border border-slate-200 dark:border-white/10">
+                        <span className="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full border border-slate-200">
                           {course.category || "General"}
                         </span>
                       </div>
                       
-                      <h3 className="text-2xl font-black mb-3 text-slate-900 dark:text-white relative z-10">{course.title}</h3>
-                      <p className="text-slate-600 dark:text-slate-400 mb-8 flex-grow relative z-10 line-clamp-2">
+                      <h3 className="text-2xl font-black mb-3 text-slate-900 relative z-10">{course.title}</h3>
+                      <p className="text-slate-600 mb-8 flex-grow relative z-10 line-clamp-2">
                         {course.description}
                       </p>
                       
-                      <div className="flex items-center gap-4 text-sm font-semibold text-slate-500 dark:text-slate-400 mb-8 relative z-10">
+                      <div className="flex items-center gap-4 text-sm font-semibold text-slate-500 mb-8 relative z-10">
                         {course.duration && (
-                        <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-white/5">
+                        <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
                           <Clock size={16} className="text-blue-500" /> {course.duration}
                         </div>
                         )}
                         {course.level && (
-                        <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-white/5">
+                        <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
                           <BarChart size={16} className="text-cyan-500" /> {course.level}
                         </div>
                         )}
                       </div>
 
-                      <Link href="/admissions" className="w-full py-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 font-bold text-slate-700 dark:text-slate-200 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-cyan-500 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 relative z-10">
+                      <Link href="/admissions" className="w-full py-4 rounded-xl bg-slate-50 border border-slate-200 font-bold text-slate-700 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-cyan-500 group-hover:text-white group-hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 relative z-10">
                         Apply Now <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </Link>
                     </div>
@@ -186,22 +186,22 @@ export default function CoursesClient() {
       </section>
 
       {/* 4. Why Learn With Us */}
-      <section className="py-24 px-6 bg-white dark:bg-[#0d1425] border-y border-slate-200 dark:border-white/5 relative">
+      <section className="py-24 px-6 bg-white border-y border-slate-200 relative">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black mb-6">Why Learn With <span className="text-blue-600 dark:text-cyan-400">Vivexa?</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black mb-6">Why Learn With <span className="text-blue-600">Vivexa?</span></h2>
           </div>
           <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURES.map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <motion.div key={i} variants={fadeInUp} className="flex items-start gap-5 p-6 rounded-3xl bg-slate-50 dark:bg-[#151c2f] border border-slate-200 dark:border-white/5 hover:-translate-y-1 transition-transform duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                <motion.div key={i} variants={fadeInUp} className="flex items-start gap-5 p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:-translate-y-1 transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                     <Icon size={24} />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{feature.desc}</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">{feature.desc}</p>
                   </div>
                 </motion.div>
               )
@@ -214,7 +214,7 @@ export default function CoursesClient() {
       <section className="py-24 px-6 relative">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-black mb-6">The Learning <span className="text-blue-600 dark:text-cyan-400">Process</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black mb-6">The Learning <span className="text-blue-600">Process</span></h2>
           </div>
           
           <div className="relative">
@@ -231,13 +231,13 @@ export default function CoursesClient() {
                   className={`flex flex-col md:flex-row items-center gap-8 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
                 >
                   <div className={`flex-1 w-full text-center ${i % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">{step.title}</h3>
-                    <p className="text-slate-600 dark:text-slate-400">{step.desc}</p>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
+                    <p className="text-slate-600">{step.desc}</p>
                   </div>
                   
                   {/* Step Circle */}
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 p-1 shrink-0 z-10 shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                    <div className="w-full h-full bg-slate-50 dark:bg-[#0a0f1c] rounded-full flex items-center justify-center text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">
+                    <div className="w-full h-full bg-slate-50 rounded-full flex items-center justify-center text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">
                       {step.step}
                     </div>
                   </div>
@@ -251,7 +251,7 @@ export default function CoursesClient() {
       </section>
 
       {/* 6. Student Benefits */}
-      <section className="py-20 px-6 bg-slate-900 dark:bg-slate-950 text-white relative">
+      <section className="py-20 px-6 bg-slate-900 text-white relative">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
         <div className="container mx-auto max-w-7xl relative z-10">
           <h2 className="text-3xl md:text-4xl font-black mb-12 text-center text-white">Student <span className="text-cyan-400">Benefits</span></h2>

@@ -1,8 +1,9 @@
 import ContactClient from "./ContactClient";
+import { SITE } from "@/lib/siteConfig";
 
 export const metadata = {
   title: "Contact Us | Vivexa Institute of Technology",
-  description: "Get in touch with Vivexa Institute of Technology for admission inquiries, course counseling, and career guidance. Located in Cyber Hub, Gurugram.",
+  description: `Get in touch with ${SITE.name} for admission inquiries, course counseling, and career guidance. ${SITE.addressFormatted}.`,
   keywords: [
     "Contact Vivexa Tech", 
     "Computer Institute Phone Number", 
@@ -48,18 +49,19 @@ export default function ContactPage() {
     "logo": "https://vit.vivexatech.in/logo.png",
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+91-9876543210",
+      "telephone": SITE.phoneTel,
       "contactType": "admissions",
-      "email": "info@vit.vivexatech.online",
+      "email": SITE.email,
       "areaServed": "IN",
       "availableLanguage": ["English", "Hindi"]
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Cyber Hub",
-      "addressLocality": "Gurugram",
-      "addressRegion": "Haryana",
-      "addressCountry": "IN"
+      "streetAddress": SITE.address.street,
+      "addressLocality": SITE.address.locality,
+      "addressRegion": SITE.address.region,
+      "postalCode": SITE.address.postalCode,
+      "addressCountry": SITE.address.country
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",

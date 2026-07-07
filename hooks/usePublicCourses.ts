@@ -15,9 +15,9 @@ export type PublicCourse = {
   status?: string;
 };
 
-export function usePublicCourses() {
-  const [courses, setCourses] = useState<PublicCourse[]>([]);
-  const [loading, setLoading] = useState(true);
+export function usePublicCourses(initialCourses: PublicCourse[] = []) {
+  const [courses, setCourses] = useState<PublicCourse[]>(initialCourses);
+  const [loading, setLoading] = useState(initialCourses.length === 0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

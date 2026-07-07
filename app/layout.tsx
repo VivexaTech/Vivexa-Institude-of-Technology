@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE } from "@/lib/siteConfig";
 
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
@@ -16,34 +17,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vit.vivexatech.in"),
+  metadataBase: new URL(SITE.url),
 
   title: {
-    default: "Vivexa Institute of Technology",
-    template: "%s | Vivexa Institute of Technology",
+    default: SITE.name,
+    template: `%s | ${SITE.name}`,
   },
 
-  description:
-    "Vivexa Institute of Technology offers premium computer education, practical IT training, web development, graphic design, digital skills, and future-ready technology courses.",
+  description: SITE.description,
+  keywords: [...SITE.keywords],
 
-  keywords: [
-    "Vivexa Institute of Technology",
-    "Computer Institute Gurgaon",
-    "Computer Courses",
-    "Web Development Course",
-    "Graphic Design Course",
-    "Digital Marketing Course",
-    "Computer Training Institute",
-    "IT Courses Gurgaon",
-    "Online Computer Classes",
-    "Technology Institute",
-  ],
-
-  authors: [{ name: "Vivexa Institute of Technology" }],
-
-  creator: "Vivexa Institute of Technology",
-
-  publisher: "Vivexa Institute of Technology",
+  authors: [{ name: SITE.name }],
+  creator: SITE.name,
+  publisher: SITE.name,
 
   robots: {
     index: true,
@@ -51,17 +37,16 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Vivexa Institute of Technology",
-    description:
-      "Premium computer education and practical IT training for future-ready digital skills.",
-    url: "https://vit.vivexatech.in",
-    siteName: "Vivexa Institute of Technology",
+    title: SITE.name,
+    description: SITE.description,
+    url: SITE.url,
+    siteName: SITE.name,
     images: [
       {
         url: "/icon1.png",
         width: 1200,
         height: 630,
-        alt: "Vivexa Institute of Technology",
+        alt: SITE.name,
       },
     ],
     locale: "en_IN",
@@ -70,9 +55,8 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Vivexa Institute of Technology",
-    description:
-      "Premium computer education and practical IT training.",
+    title: SITE.name,
+    description: SITE.description,
     images: ["/icon1.png"],
   },
 
@@ -91,32 +75,30 @@ export default function RootLayout({
   const structuredData = {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
-  "@id": "https://vit.vivexatech.in/#organization",
+  "@id": `${SITE.url}/#organization`,
 
-  name: "Vivexa Institute of Technology",
-  alternateName: "VIT",
+  name: SITE.name,
+  alternateName: SITE.shortName,
 
-  url: "https://vit.vivexatech.in",
-  logo: "https://vit.vivexatech.in/icon1.png",
-  image: "https://vit.vivexatech.in/icon1.png",
+  url: SITE.url,
+  logo: `${SITE.url}/icon1.png`,
+  image: `${SITE.url}/icon1.png`,
 
-  description:
-    "Vivexa Institute of Technology provides professional computer education, web development, graphic design, digital marketing, AI and industry-ready IT training.",
+  description: SITE.description,
 
-  email: "contact@vivexatech.in",
-  telephone: "+91 9354486861",
+  email: SITE.email,
+  telephone: SITE.phoneTel,
 
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Gurugram",
-    addressRegion: "Haryana",
-    addressCountry: "IN"
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    postalCode: SITE.address.postalCode,
+    addressCountry: SITE.address.country,
   },
 
-  sameAs: [
-    "https://www.instagram.com/vivexainstituteoftechnology",
-    "https://www.linkedin.com/company/vivexa-institute-of-technology"
-  ]
+  sameAs: [SITE.social.instagram, SITE.social.linkedin]
 };
 
 
@@ -124,20 +106,13 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
 
-  "@id": "https://vit.vivexatech.in/#website",
+  "@id": `${SITE.url}/#website`,
 
-  url: "https://vit.vivexatech.in",
-  name: "Vivexa Institute of Technology",
+  url: SITE.url,
+  name: SITE.name,
 
   publisher: {
-    "@id": "https://vit.vivexatech.in/#organization"
-  },
-
-  potentialAction: {
-    "@type": "SearchAction",
-    target:
-      "https://vit.vivexatech.in/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
+    "@id": `${SITE.url}/#organization`
   }
 };
 
@@ -145,7 +120,8 @@ const websiteSchema = {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} light h-full antialiased`}
+      style={{ colorScheme: "light" }}
     >
       <head>
         <meta

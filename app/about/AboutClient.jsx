@@ -48,7 +48,7 @@ const STATS = [
 
 export default function AboutClient() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden">
+    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30 overflow-hidden">
       
       {/* 1. Premium Hero Banner */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 flex items-center justify-center min-h-[70vh]">
@@ -74,13 +74,13 @@ export default function AboutClient() {
 
         <div className="container mx-auto text-center max-w-4xl relative z-10">
           <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
-            <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-cyan-400 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+            <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
               Discover Our Story
             </motion.div>
             <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-8 tracking-tight">
               Empowering Future Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 drop-shadow-sm">Technology</span>
             </motion.h1>
-            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
               Vivexa Institute of Technology is committed to providing practical computer education and future-ready digital skills for the innovators of tomorrow.
             </motion.p>
           </motion.div>
@@ -88,7 +88,7 @@ export default function AboutClient() {
       </section>
 
       {/* 2. About Institute Section */}
-      <section className="py-24 px-6 relative z-10 bg-white dark:bg-[#0d1425] border-y border-slate-200 dark:border-white/5">
+      <section className="py-24 px-6 relative z-10 bg-white border-y border-slate-200">
         <div className="container mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: Futuristic Abstract Image/Graphic */}
           <motion.div 
@@ -98,14 +98,14 @@ export default function AboutClient() {
             transition={{ duration: 0.8 }}
             className="relative aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden group shadow-2xl"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-cyan-400 opacity-90 mix-blend-multiply dark:mix-blend-color z-10 transition-opacity duration-500 group-hover:opacity-75"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-cyan-400 opacity-90 mix-blend-multiply z-10 transition-opacity duration-500 group-hover:opacity-75"></div>
             <img 
               src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1200" 
               alt="Vivexa Institute of Technology students learning practical computer skills" 
               className="object-cover w-full h-full scale-105 group-hover:scale-100 transition-transform duration-700"
             />
             {/* Overlay Glass Panel */}
-            <div className="absolute bottom-8 left-8 right-8 bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 rounded-2xl p-6 z-20 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
+            <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 z-20 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
               <p className="text-white font-semibold text-lg flex items-center gap-2">
                 <Rocket className="text-cyan-400" /> Accelerating Careers
               </p>
@@ -120,19 +120,19 @@ export default function AboutClient() {
             variants={staggerContainer}
           >
             <motion.h2 variants={fadeInUp} className="text-3xl md:text-5xl font-black mb-6">
-              Who We <span className="text-blue-600 dark:text-cyan-400">Are</span>
+              Who We <span className="text-blue-600">Are</span>
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed">
+            <motion.p variants={fadeInUp} className="text-slate-600 text-lg mb-8 leading-relaxed">
               Vivexa Institute of Technology is a modern computer education institute dedicated to empowering students with practical skills, industry-relevant knowledge, and career-focused training. Our mission is to bridge the gap between education and technology by offering premium learning experiences.
             </motion.p>
             
             <div className="grid sm:grid-cols-2 gap-4">
               {["Practical Learning", "Industry-Oriented Courses", "Career Guidance", "Skill Development"].map((item, i) => (
                 <motion.div key={i} variants={fadeInUp} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-cyan-400 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
                     <CheckCircle size={16} />
                   </div>
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">{item}</span>
+                  <span className="font-semibold text-slate-800">{item}</span>
                 </motion.div>
               ))}
             </div>
@@ -149,13 +149,13 @@ export default function AboutClient() {
               initial={{ opacity: 0, y: 30 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
-              className="p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-white to-slate-50 dark:from-white/5 dark:to-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-xl shadow-slate-200/50 dark:shadow-none hover:-translate-y-2 transition-transform duration-300"
+              className="p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-white to-slate-50 border border-slate-200 backdrop-blur-xl shadow-xl shadow-slate-200/50 hover:-translate-y-2 transition-transform duration-300"
             >
               <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-blue-500/30">
                 <Target size={32} />
               </div>
               <h3 className="text-3xl font-black mb-4">Our Mission</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+              <p className="text-slate-600 text-lg leading-relaxed">
                 "To provide premium quality computer education and digital skills training that empowers students, bridges the industry gap, and prepares them for lucrative future career opportunities."
               </p>
             </motion.div>
@@ -166,7 +166,7 @@ export default function AboutClient() {
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
               transition={{ delay: 0.2 }}
-              className="p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-slate-900 to-slate-800 dark:from-[#0f172a] dark:to-[#1e293b] border border-slate-700 dark:border-white/10 text-white backdrop-blur-xl shadow-xl hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden"
+              className="p-10 md:p-14 rounded-[2rem] bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 text-white backdrop-blur-xl shadow-xl hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] -z-10" />
               <div className="w-16 h-16 rounded-2xl bg-cyan-400 flex items-center justify-center text-slate-900 mb-8 shadow-lg shadow-cyan-400/30">
@@ -182,11 +182,11 @@ export default function AboutClient() {
       </section>
 
       {/* 4. Why Choose Us Section */}
-      <section className="py-24 px-6 bg-slate-100 dark:bg-[#0d1425] relative">
+      <section className="py-24 px-6 bg-slate-100 relative">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black mb-6">Why Choose <span className="text-blue-600 dark:text-cyan-400">Us?</span></h2>
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">
+            <h2 className="text-3xl md:text-5xl font-black mb-6">Why Choose <span className="text-blue-600">Us?</span></h2>
+            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
               We don't just teach software; we build careers. Here is why thousands of students trust Vivexa for their educational journey.
             </p>
           </div>
@@ -204,13 +204,13 @@ export default function AboutClient() {
                 <motion.div 
                   key={i} 
                   variants={fadeInUp} 
-                  className="group p-8 rounded-3xl bg-white dark:bg-[#151c2f] border border-slate-200 dark:border-white/5 hover:border-blue-500/50 dark:hover:border-cyan-400/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/5"
+                  className="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/5"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 text-blue-600 dark:text-cyan-400 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-50 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
                     <Icon size={28} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">{item.title}</h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <h3 className="text-xl font-bold mb-3 text-slate-900">{item.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -221,11 +221,11 @@ export default function AboutClient() {
       </section>
 
       {/* 5. Institute Values Section */}
-      <section className="py-24 px-6 border-b border-slate-200 dark:border-white/5 relative z-10">
+      <section className="py-24 px-6 border-b border-slate-200 relative z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-500/10 rounded-full blur-[120px] -z-10" />
         
         <div className="container mx-auto max-w-6xl text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-16">Our Core <span className="text-blue-600 dark:text-cyan-400">Values</span></h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-16">Our Core <span className="text-blue-600">Values</span></h2>
           
           <motion.div 
             variants={staggerContainer} 
@@ -240,10 +240,10 @@ export default function AboutClient() {
                 <motion.div 
                   key={i} 
                   variants={fadeInUp} 
-                  className="w-40 h-40 md:w-48 md:h-48 rounded-[2rem] bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md flex flex-col items-center justify-center gap-4 hover:bg-blue-600 dark:hover:bg-cyan-500 hover:text-white dark:hover:text-slate-900 transition-all duration-300 group cursor-default shadow-lg shadow-slate-200/20 dark:shadow-none"
+                  className="w-40 h-40 md:w-48 md:h-48 rounded-[2rem] bg-white/50 border border-slate-200 backdrop-blur-md flex flex-col items-center justify-center gap-4 hover:bg-blue-600 hover:text-white transition-all duration-300 group cursor-default shadow-lg shadow-slate-200/20"
                 >
-                  <Icon size={40} className="text-blue-600 dark:text-cyan-400 group-hover:text-white dark:group-hover:text-slate-900 transition-colors" />
-                  <span className="font-bold text-sm md:text-base text-slate-800 dark:text-slate-200 group-hover:text-white dark:group-hover:text-slate-900">{value.title}</span>
+                  <Icon size={40} className="text-blue-600 group-hover:text-white transition-colors" />
+                  <span className="font-bold text-sm md:text-base text-slate-800 group-hover:text-white">{value.title}</span>
                 </motion.div>
               );
             })}
@@ -252,7 +252,7 @@ export default function AboutClient() {
       </section>
 
       {/* 6. Student Success Highlight (Stats) */}
-      <section className="py-20 px-6 bg-slate-900 dark:bg-slate-950 text-white relative overflow-hidden">
+      <section className="py-20 px-6 bg-slate-900 text-white relative overflow-hidden">
         {/* Tech Grid Pattern */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
         

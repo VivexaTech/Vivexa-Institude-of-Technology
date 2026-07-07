@@ -1,4 +1,5 @@
 import HomeClient from "./HomeClient";
+import { getPublicCourses } from "@/lib/getPublicCourses";
 
 export const metadata = {
   title: "Vivexa Institute of Technology | Premium Computer Education",
@@ -39,8 +40,9 @@ export const metadata = {
   },
 };
 
-export default function HomePage() {
-  // JSON-LD Structured Data for Root Domain
+export default async function HomePage() {
+  const courses = await getPublicCourses();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -73,7 +75,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomeClient />
+      <HomeClient initialCourses={courses} />
     </>
   );
 }

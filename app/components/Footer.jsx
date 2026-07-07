@@ -20,7 +20,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-slate-50 dark:bg-slate-950 pt-20 pb-10 px-6 overflow-hidden border-t border-slate-200 dark:border-white/5 ">
+    <footer className="relative bg-slate-50 pt-20 pb-10 px-6 overflow-hidden border-t border-slate-200 ">
       {/* Subtle Top Gradient Line */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
 
@@ -29,16 +29,16 @@ export default function Footer() {
         {/* Brand & About */}
         <div className="sm:col-span-2 lg:col-span-2">
           <Link href="/" className="flex items-center gap-3 mb-6 group w-fit">
-            <div className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+            <div className="text-2xl font-black tracking-tight text-slate-900">
               Vivexa<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500"> Institute of Technology</span>
             </div>
           </Link>
-          <p className="text-slate-600 dark:text-slate-400 max-w-md mb-8 leading-relaxed">
+          <p className="text-slate-600 max-w-md mb-8 leading-relaxed">
             A premium computer education institute focused on practical skills, modern technologies, and career-driven growth for the innovators of tomorrow.
           </p>
           
           {/* Social Icons */}
-          <div className="flex gap-4 text-slate-500 dark:text-slate-400">
+          <div className="flex gap-4 text-slate-500">
             {SOCIAL_LINKS.map((social, index) => {
               const Icon = social.icon;
               return (
@@ -48,7 +48,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full border border-slate-300 dark:border-slate-800 bg-white dark:bg-white/5 flex items-center justify-center hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
+                  className="w-10 h-10 rounded-full border border-slate-300 bg-white flex items-center justify-center hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300"
                 >
                   <Icon size={18} />
                 </a>
@@ -59,13 +59,13 @@ export default function Footer() {
         
         {/* Quick Links */}
         <div>
-          <h4 className="font-bold mb-6 text-lg text-slate-900 dark:text-white">Quick Links</h4>
-          <ul className="space-y-3 text-slate-600 dark:text-slate-400">
+          <h4 className="font-bold mb-6 text-lg text-slate-900">Quick Links</h4>
+          <ul className="space-y-3 text-slate-600">
             {QUICK_LINKS.map((link) => (
               <li key={link.name}>
                 <Link 
                   href={link.href} 
-                  className="inline-block hover:text-blue-600 dark:hover:text-cyan-400 hover:translate-x-1 transition-all duration-200 font-medium"
+                  className="inline-block hover:text-blue-600 hover:translate-x-1 transition-all duration-200 font-medium"
                 >
                   {link.name}
                 </Link>
@@ -76,33 +76,33 @@ export default function Footer() {
 
         {/* Contact Info */}
         <div>
-          <h4 className="font-bold mb-6 text-lg text-slate-900 dark:text-white">Contact Info</h4>
-          <ul className="space-y-4 text-slate-600 dark:text-slate-400 font-medium">
+          <h4 className="font-bold mb-6 text-lg text-slate-900">Contact Info</h4>
+          <ul className="space-y-4 text-slate-600 font-medium">
             <li className="flex items-start gap-3 group">
               <MapPin size={20} className="text-blue-500 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" /> 
               <span>Ekta tower, Basement, Main Rd,<br /> Ashok Vihar Phase III Extension, <br /> Gurugram, Haryana 122006</span>
             </li>
             <li className="flex items-center gap-3 group">
               <Phone size={20} className="text-blue-500 shrink-0 group-hover:scale-110 transition-transform" /> 
-              <a href="tel:+919582194338" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">+91 95821 94338</a>
+              <a href="tel:+919582194338" className="hover:text-blue-600 transition-colors">+91 95821 94338</a>
             </li>
             <li className="flex items-center gap-3 group">
               <Mail size={20} className="text-blue-500 shrink-0 group-hover:scale-110 transition-transform" /> 
-              <a href="mailto:info@vivexatech.in" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">info@vivexatech.in</a>
+              <a href="mailto:info@vivexatech.in" className="hover:text-blue-600 transition-colors">info@vivexatech.in</a>
             </li>
           </ul>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200 dark:border-white/10 pt-8 text-slate-500 dark:text-slate-400 text-sm">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200 pt-8 text-slate-500 text-sm">
         <p className="text-center md:text-left">
           © {currentYear} Vivexa Institute of Technology. All rights reserved. <br className="md:hidden" />
-          Powered by <a href="https://www.vivexatech.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 dark:text-cyan-400 hover:underline transition-colors">Vivexa Tech</a>
+          Powered by <a href="https://www.vivexatech.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:underline transition-colors">Vivexa Tech</a>
         </p>
         <div className="flex gap-6 font-medium">
-          <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
         </div>
       </div>
     </footer>

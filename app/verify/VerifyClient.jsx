@@ -148,7 +148,7 @@ export default function VerifyClient() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden relative flex flex-col items-center py-20 px-4 md:px-6">
+    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30 overflow-hidden relative flex flex-col items-center py-20 px-4 md:px-6">
       
       {/* --- Futuristic Animated Background --- */}
       <div className="fixed top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[150px] -z-10 animate-pulse pointer-events-none" />
@@ -165,13 +165,13 @@ export default function VerifyClient() {
       {/* --- Hero Section --- */}
       <div className="container mx-auto max-w-4xl relative z-10 w-full">
         <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="text-center mb-12">
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-cyan-400 text-sm font-bold mb-6 tracking-widest uppercase backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 text-sm font-bold mb-6 tracking-widest uppercase backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
             <ShieldCheck size={18} /> Official Portal
           </motion.div>
           <motion.h1 variants={fadeInUp} className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6 tracking-tight">
             Certificate <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">Verification</span>
           </motion.h1>
-          <motion.p variants={fadeInUp} className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          <motion.p variants={fadeInUp} className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Verify the authenticity of certificates issued by Vivexa Institute of Technology. Enter your unique Certificate ID below.
           </motion.p>
         </motion.div>
@@ -182,7 +182,7 @@ export default function VerifyClient() {
             <motion.div 
               key="search"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}
-              className="w-full max-w-2xl mx-auto p-2 rounded-2xl bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-xl shadow-2xl shadow-blue-500/10 relative overflow-hidden group"
+              className="w-full max-w-2xl mx-auto p-2 rounded-2xl bg-white/60 border border-slate-200 backdrop-blur-xl shadow-2xl shadow-blue-500/10 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
               
@@ -194,7 +194,7 @@ export default function VerifyClient() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value.toUpperCase())}
                     placeholder="Example: VIT-2026-001" 
-                    className="w-full pl-14 pr-5 py-4 rounded-xl bg-white dark:bg-black/40 border border-transparent focus:border-blue-500/50 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all font-mono uppercase tracking-wide placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-inner"
+                    className="w-full pl-14 pr-5 py-4 rounded-xl bg-white border border-transparent focus:border-blue-500/50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all font-mono uppercase tracking-wide placeholder:normal-case placeholder:tracking-normal placeholder:text-slate-400 shadow-inner"
                     disabled={isVerifying}
                     required
                   />
@@ -215,22 +215,22 @@ export default function VerifyClient() {
             <motion.div 
               key="success"
               initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}
-              className="w-full mx-auto rounded-[2.5rem] bg-white/80 dark:bg-[#111827]/90 backdrop-blur-2xl border border-green-500/30 shadow-[0_0_60px_rgba(34,197,94,0.15)] relative overflow-hidden"
+              className="w-full mx-auto rounded-[2.5rem] bg-white/80 backdrop-blur-2xl border border-green-500/30 shadow-[0_0_60px_rgba(34,197,94,0.15)] relative overflow-hidden"
             >
               {/* Premium Inner Glow */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-32 bg-green-500/20 rounded-[100%] blur-[60px] pointer-events-none"></div>
 
               <div className="p-8 md:p-12 relative z-10">
                 {/* Header Profile */}
-                <div className="flex flex-col items-center text-center mb-10 pb-10 border-b border-slate-200 dark:border-white/10">
+                <div className="flex flex-col items-center text-center mb-10 pb-10 border-b border-slate-200">
                   <motion.div 
                     initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
                     className="w-24 h-24 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center text-white mb-6 shadow-[0_0_40px_rgba(52,211,153,0.4)]"
                   >
                     <CheckCircle2 size={48} strokeWidth={2.5} />
                   </motion.div>
-                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-3">Certificate Verified</h2>
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 font-mono tracking-widest text-sm">
+                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">Certificate Verified</h2>
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 font-mono tracking-widest text-sm">
                     {result.certificateId}
                   </div>
                 </div>
@@ -239,48 +239,48 @@ export default function VerifyClient() {
                 <div className="grid md:grid-cols-2 gap-8 mb-12">
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-white/5 text-blue-500"><User size={20}/></div>
+                      <div className="p-3 rounded-xl bg-blue-50 text-blue-500"><User size={20}/></div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Student Name</p>
-                        <p className="text-xl font-bold text-slate-900 dark:text-white">{result.studentName}</p>
+                        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Student Name</p>
+                        <p className="text-xl font-bold text-slate-900">{result.studentName}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-white/5 text-blue-500"><BookOpen size={20}/></div>
+                      <div className="p-3 rounded-xl bg-blue-50 text-blue-500"><BookOpen size={20}/></div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Course Enrolled</p>
+                        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Course Enrolled</p>
                         <p className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">{result.course}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-white/5 text-blue-500"><Clock size={20}/></div>
+                      <div className="p-3 rounded-xl bg-blue-50 text-blue-500"><Clock size={20}/></div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Duration</p>
-                        <p className="text-xl font-bold text-slate-900 dark:text-white">{result.duration}</p>
+                        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Duration</p>
+                        <p className="text-xl font-bold text-slate-900">{result.duration}</p>
                       </div>
                     </div>
                   </div>
                   
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-white/5 text-blue-500"><Calendar size={20}/></div>
+                      <div className="p-3 rounded-xl bg-blue-50 text-blue-500"><Calendar size={20}/></div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Issue Date</p>
-                        <p className="text-xl font-bold text-slate-900 dark:text-white">{new Date(result.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Issue Date</p>
+                        <p className="text-xl font-bold text-slate-900">{new Date(result.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-white/5 text-blue-500"><GraduationCap size={20}/></div>
+                      <div className="p-3 rounded-xl bg-blue-50 text-blue-500"><GraduationCap size={20}/></div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Grade</p>
-                        <p className="text-xl font-bold text-slate-900 dark:text-white">{result.grade}</p>
+                        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Grade</p>
+                        <p className="text-xl font-bold text-slate-900">{result.grade}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-white/5 text-blue-500"><Award size={20}/></div>
+                      <div className="p-3 rounded-xl bg-blue-50 text-blue-500"><Award size={20}/></div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Status</p>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 text-green-700 dark:text-green-400 font-bold">
+                        <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1">Status</p>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-green-50 border border-green-200 text-green-700 font-bold">
                           <span className="relative flex h-2.5 w-2.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
@@ -295,11 +295,11 @@ export default function VerifyClient() {
                 {/* Certificate Image Preview Section */}
                 {result.certificateImage && (
                   <div className="mb-12">
-                    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                       Certificate Preview
                     </h3>
-                    <div className="w-full bg-slate-100 dark:bg-black/50 rounded-2xl p-2 border border-slate-200 dark:border-white/10 shadow-inner">
-                      <div className="relative w-full aspect-[1.414/1] overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800 group">
+                    <div className="w-full bg-slate-100 rounded-2xl p-2 border border-slate-200 shadow-inner">
+                      <div className="relative w-full aspect-[1.414/1] overflow-hidden rounded-xl bg-slate-200 group">
                         <img 
                           src={result.certificateImage} 
                           alt={`Certificate for ${result.studentName}`} 
@@ -341,17 +341,17 @@ export default function VerifyClient() {
                 </div>
 
                 {/* Footer Section */}
-                <div className="pt-6 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-white/10 flex items-center justify-center text-blue-600 dark:text-cyan-400">
+                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
                       <Building size={20} />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5">Issued By</p>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">{result.instituteName || "Vivexa Institute of Technology"}</p>
+                      <p className="text-sm font-bold text-slate-900">{result.instituteName || "Vivexa Institute of Technology"}</p>
                     </div>
                   </div>
-                  <button onClick={resetSearch} className="px-6 py-2.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors flex items-center gap-2 shadow-sm border border-slate-200 dark:border-transparent">
+                  <button onClick={resetSearch} className="px-6 py-2.5 rounded-full bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors flex items-center gap-2 shadow-sm border border-slate-200">
                     <ChevronLeft size={18} /> Verify Another
                   </button>
                 </div>
@@ -365,20 +365,20 @@ export default function VerifyClient() {
             <motion.div 
               key="error"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}
-              className="w-full max-w-lg mx-auto p-10 rounded-[2rem] bg-white dark:bg-[#111827] border border-red-500/30 text-center shadow-2xl relative overflow-hidden"
+              className="w-full max-w-lg mx-auto p-10 rounded-[2rem] bg-white border border-red-500/30 text-center shadow-2xl relative overflow-hidden"
             >
                <div className="absolute top-0 right-0 w-40 h-40 bg-red-500/10 rounded-full blur-[60px] pointer-events-none"></div>
 
-              <div className="w-20 h-20 mx-auto bg-red-50 dark:bg-red-500/10 rounded-full flex items-center justify-center text-red-500 mb-6 relative z-10 shadow-inner border border-red-100 dark:border-red-500/20">
+              <div className="w-20 h-20 mx-auto bg-red-50 rounded-full flex items-center justify-center text-red-500 mb-6 relative z-10 shadow-inner border border-red-100">
                 <XCircle size={40} strokeWidth={2.5} />
               </div>
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-3 relative z-10">Certificate Not Found</h2>
-              <p className="text-slate-600 dark:text-slate-400 mb-8 relative z-10 leading-relaxed">
-                The certificate ID <span className="font-mono font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded">"{searchInput}"</span> is invalid or does not exist in our secure database.
+              <h2 className="text-2xl font-black text-slate-900 mb-3 relative z-10">Certificate Not Found</h2>
+              <p className="text-slate-600 mb-8 relative z-10 leading-relaxed">
+                The certificate ID <span className="font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">"{searchInput}"</span> is invalid or does not exist in our secure database.
               </p>
               <button 
                 onClick={resetSearch}
-                className="w-full py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-lg hover:shadow-lg transition-all flex items-center justify-center gap-2 relative z-10 active:scale-95"
+                className="w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-lg hover:shadow-lg transition-all flex items-center justify-center gap-2 relative z-10 active:scale-95"
               >
                 <ChevronLeft size={20} /> Try Again
               </button>

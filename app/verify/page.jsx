@@ -17,7 +17,7 @@ export default function CertificateVerificationPage() {
 // Premium futuristic loader fallback
 function VerificationSkeleton() {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0f1c] flex items-center justify-center">
+    <main className="min-h-screen bg-slate-50 flex items-center justify-center">
       <div className="relative flex items-center justify-center w-24 h-24">
         <div className="absolute inset-0 border-4 border-blue-500/20 rounded-full"></div>
         <div className="absolute inset-0 border-4 border-cyan-400 rounded-full border-t-transparent animate-spin"></div>
