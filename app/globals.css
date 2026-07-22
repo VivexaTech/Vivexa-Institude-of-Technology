@@ -6,6 +6,7 @@
   --color-blue: #3672f8;
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-display: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 /* 2. Light theme variables */
@@ -78,4 +79,30 @@
 
 .grecaptcha-badge {
   visibility: hidden;
+}
+
+/* Marquee infinite scroll */
+@keyframes notice-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.notice-marquee-track {
+  animation: notice-marquee 35s linear infinite;
+}
+
+.notice-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Gradient text utility */
+.text-gradient {
+  background-image: linear-gradient(90deg, #2563eb, #06b6d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

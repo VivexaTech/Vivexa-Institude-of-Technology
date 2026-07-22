@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Script from "next/script";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   MapPin, Phone, Mail, Clock, Send, 
@@ -134,7 +135,7 @@ export default function ContactClient() {
       <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30 overflow-hidden pb-20">
         
         {/* 1. Premium Hero Section */}
-        <section className="relative pt-32 pb-20 px-6 flex flex-col items-center justify-center text-center min-h-[50vh]">
+        <section className="relative pt-32 pb-20 lg:pb-24 px-6 flex flex-col items-center justify-center text-center min-h-[50vh]">
           {/* Futuristic Glowing Background */}
           <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[150px] -z-10 animate-pulse" />
           <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[150px] -z-10" />
@@ -152,8 +153,8 @@ export default function ContactClient() {
               <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm">
                 We're Here To Help
               </motion.div>
-              <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
-                Get In Touch With <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">Us</span>
+              <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6 tracking-tight">
+                Get In Touch With <span className="text-gradient">Us</span>
               </motion.h1>
               <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 leading-relaxed">
                 We’re here to guide your learning journey. Reach out to Vivexa Institute of Technology for admissions, courses, and career guidance.
@@ -174,7 +175,7 @@ export default function ContactClient() {
                 return (
                   <motion.div 
                     key={i} variants={fadeInUp} 
-                    className="p-8 rounded-[2rem] bg-white/60 border border-slate-200 backdrop-blur-xl shadow-lg shadow-slate-200/50 hover:-translate-y-2 transition-all duration-300 group"
+                    className="p-8 rounded-[2rem] bg-white/60 border border-slate-200 backdrop-blur-xl shadow-lg shadow-slate-200/50 hover:-translate-y-2 hover:border-blue-300 hover:shadow-blue-500/10 transition-all duration-300 group"
                   >
                     <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                       <Icon size={28} />
@@ -426,10 +427,10 @@ export default function ContactClient() {
                 <p className="text-blue-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium">
                   Contact Vivexa Institute of Technology today and begin learning future-ready skills that industry leaders demand.
                 </p>
-                <button className="px-10 py-5 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center justify-center gap-2 mx-auto group">
+                <Link href="/admissions" className="px-10 py-5 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center justify-center gap-2 mx-auto group">
                   Apply For Admission 
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+                </Link>
               </div>
             </motion.div>
           </div>

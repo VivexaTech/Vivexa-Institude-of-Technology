@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { usePublicCourses } from "@/hooks/usePublicCourses";
 import { getCourseIcon } from "@/lib/courseIcons";
+import { CourseCardSkeleton } from "@/app/components/Skeletons";
 
 // --- Animation Variants ---
 const fadeInUp = {
@@ -64,7 +65,7 @@ export default function CoursesClient({ initialCourses = [] }) {
     <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30 overflow-hidden pb-20">
       
       {/* 1. Premium Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 flex flex-col items-center justify-center text-center min-h-[60vh]">
+      <section className="relative pt-32 pb-20 lg:pb-24 px-6 flex flex-col items-center justify-center text-center min-h-[60vh]">
         {/* Futuristic Glowing Background */}
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[150px] -z-10 animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[150px] -z-10" />
@@ -82,8 +83,8 @@ export default function CoursesClient({ initialCourses = [] }) {
             <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm">
               Accelerate Your Career
             </motion.div>
-            <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-8">
-              Our Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">Courses</span>
+            <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-8 tracking-tight">
+              Our Professional <span className="text-gradient">Courses</span>
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
               Learn practical digital skills and build your future with industry-relevant computer education at Vivexa Institute of Technology.
@@ -118,11 +119,8 @@ export default function CoursesClient({ initialCourses = [] }) {
 
           {/* Courses Grid */}
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {loading && (
-              [...Array(6)].map((_, i) => (
-                <div key={i} className="h-80 rounded-[2rem] bg-slate-200 animate-pulse" />
-              ))
-            )}
+            {loading &&
+              [...Array(6)].map((_, i) => <CourseCardSkeleton key={i} />)}
             {!loading && filteredCourses.length === 0 && (
               <p className="col-span-full text-center text-slate-500 py-16">
                 No courses in this category yet.{" "}
@@ -140,7 +138,7 @@ export default function CoursesClient({ initialCourses = [] }) {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
                     key={course.id}
-                    className="group rounded-[2rem] p-1 bg-gradient-to-b from-slate-200 to-slate-100 hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 h-full flex flex-col"
+                    className="group rounded-[2rem] p-1 bg-gradient-to-b from-slate-200 to-slate-100 hover:from-blue-600 hover:to-cyan-400 transition-all duration-500 h-full flex flex-col hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
                   >
                     <div className="h-full bg-white rounded-[31px] p-8 flex flex-col relative overflow-hidden">
                       {/* Inner Glow Hover */}
@@ -186,7 +184,7 @@ export default function CoursesClient({ initialCourses = [] }) {
       </section>
 
       {/* 4. Why Learn With Us */}
-      <section className="py-24 px-6 bg-white border-y border-slate-200 relative">
+      <section className="py-20 md:py-24 px-6 bg-white border-y border-slate-200 relative">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black mb-6">Why Learn With <span className="text-blue-600">Vivexa?</span></h2>
@@ -294,10 +292,10 @@ export default function CoursesClient({ initialCourses = [] }) {
               <p className="text-blue-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium">
                 Join Vivexa Institute of Technology and gain the future-ready skills required to excel in the modern digital world.
               </p>
-              <button className="px-10 py-5 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center justify-center gap-2 mx-auto group">
+              <Link href="/admissions" className="px-10 py-5 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center justify-center gap-2 mx-auto group">
                 Apply For Admission 
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>

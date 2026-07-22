@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { 
   Target, Eye, Cpu, MonitorPlay, Code, Users, 
   Award, Briefcase, Zap, CheckCircle, GraduationCap, 
@@ -51,7 +52,7 @@ export default function AboutClient() {
     <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30 overflow-hidden">
       
       {/* 1. Premium Hero Banner */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 flex items-center justify-center min-h-[70vh]">
+      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-6 flex items-center justify-center min-h-[70vh]">
         {/* Futuristic Glowing Orbs */}
         <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[150px] -z-10 animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[150px] -z-10" />
@@ -77,8 +78,8 @@ export default function AboutClient() {
             <motion.div variants={fadeInUp} className="inline-block px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-600 text-sm font-bold mb-8 tracking-widest uppercase backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
               Discover Our Story
             </motion.div>
-            <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-8 tracking-tight">
-              Empowering Future Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 drop-shadow-sm">Technology</span>
+            <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-8 tracking-tight">
+              Empowering Future Through <span className="text-gradient drop-shadow-sm">Technology</span>
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
               Vivexa Institute of Technology is committed to providing practical computer education and future-ready digital skills for the innovators of tomorrow.
@@ -204,7 +205,7 @@ export default function AboutClient() {
                 <motion.div 
                   key={i} 
                   variants={fadeInUp} 
-                  className="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/5"
+                  className="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/10"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-slate-50 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
                     <Icon size={28} />
@@ -299,10 +300,10 @@ export default function AboutClient() {
               <p className="text-blue-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
                 Join Vivexa Institute of Technology today and equip yourself with the future-ready skills demanded by top tech companies globally.
               </p>
-              <button className="px-10 py-5 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center justify-center gap-2 mx-auto group">
+              <Link href="/courses" className="px-10 py-5 rounded-full bg-white text-blue-700 font-bold text-lg hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center justify-center gap-2 mx-auto group">
                 Explore Courses 
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
