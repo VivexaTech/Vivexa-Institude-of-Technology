@@ -65,7 +65,7 @@ const WHY_VIT = [
 ];
 
 const FAQS = [
-  { q: "How do I apply?", a: "You can apply by filling out the online admission form on this page or by visiting our campus directly with the required documents." },
+  { q: "How do I apply?", a: "Fill out the online admission form on this page. Your enquiry goes straight to our Inquiry Management system, and a counselor will follow up with you. You can also visit our campus with the required documents." },
   { q: "Which courses are available?", a: "We offer Basic Computers, DCA, ADCA, Tally Prime + GST, Web Development, Graphic Design, and Future AI Tools training." },
   { q: "Are certificates provided?", a: "Yes, a professional certificate is provided upon successful completion of your course." },
   { q: "Is practical training included?", a: "100% of our training is practical. You will learn by working on real-world projects and case studies." },
@@ -437,7 +437,7 @@ export default function AdmissionClient() {
                         <CheckCircle2 className="shrink-0 mt-0.5" size={24} />
                         <div>
                           <p className="font-bold">Application Received Successfully!</p>
-                          <p className="text-sm mt-1 opacity-90">Thank you for choosing Vivexa Institute of Technology. Our counseling team will contact you shortly to complete the admission process.</p>
+                          <p className="text-sm mt-1 opacity-90">Thank you for choosing Vivexa Institute of Technology. Your enquiry is now with our counseling team — we will contact you shortly to complete admission.</p>
                         </div>
                       </motion.div>
                     )}
